@@ -1,6 +1,7 @@
 package com.aliumujib.countryflags.ui.allcountries
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -63,7 +64,7 @@ class AllCountriesFragment : DaggerFragment(), MVIView<AllCountriesIntent, AllCo
     private fun refreshIntent(): Observable<AllCountriesIntent.RefreshAllCountriesIntent> {
         return swipe_refresh_layout.refreshes().map {
             AllCountriesIntent.RefreshAllCountriesIntent
-        }
+        }.startWith(AllCountriesIntent.RefreshAllCountriesIntent)
     }
 
 
@@ -90,7 +91,6 @@ class AllCountriesFragment : DaggerFragment(), MVIView<AllCountriesIntent, AllCo
             )
         }
 
-        swipe_refresh_layout.isRefreshing = true
     }
 
     override fun onStart() {
@@ -104,7 +104,10 @@ class AllCountriesFragment : DaggerFragment(), MVIView<AllCountriesIntent, AllCo
     }
 
     override fun render(state: AllCountriesViewState) {
-        swipe_refresh_layout.isRefreshing = state.isLoading
+        Log.d("TAG", state.toString())
+        swipe_refresh_layout.post {
+            swipe_refresh_layout.isRefreshing = state.isLoading
+        }
         emptyView.visible = state.data.isEmpty() && state.isLoading.not()
         recycler_view.visible = state.data.isNotEmpty()
         rvAdapter.updateData(state.data.map {

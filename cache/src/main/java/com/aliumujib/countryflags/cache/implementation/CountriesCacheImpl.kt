@@ -15,6 +15,8 @@ class CountriesCacheImpl @Inject constructor(
     override fun fetchCountries(): Flowable<List<CountryEntity>> {
         return countriesDao.getAllCountries().map {
             countryCacheModelMapper.mapFromEntityList(it)
+        }.filter{
+            it.isNotEmpty()
         }
     }
 
