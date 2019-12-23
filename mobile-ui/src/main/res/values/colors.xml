@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">@color/mds_white</color>
+    <color name="colorPrimaryDark">@color/mds_black</color>
+    <color name="colorAccent">#e3232c</color>
+</resources>

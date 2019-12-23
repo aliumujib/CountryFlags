@@ -1,0 +1,34 @@
+apply plugin: 'kotlin'
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    def remoteDependencies = rootProject.ext.appDependencies
+    def testDependencies = rootProject.ext.testDependencies
+
+    implementation remoteDependencies.rxJava
+    implementation remoteDependencies.jodaTime
+    implementation remoteDependencies.javaxInject
+    implementation remoteDependencies.javaxAnnotation
+    implementation remoteDependencies.retrofit
+    implementation remoteDependencies.retrofitGson
+    implementation remoteDependencies.retrofitRxAdapter
+    implementation remoteDependencies.okhttp3LogginInterceptor
+    implementation remoteDependencies.roomDB
+    implementation remoteDependencies.roomCompiler
+    implementation remoteDependencies.roomRxJava2
+    implementation project(':data')
+    implementation remoteDependencies.moshi
+
+
+    testImplementation testDependencies.konveyor
+    testImplementation testDependencies.junit
+    testImplementation testDependencies.mockitoKotlin
+    testImplementation testDependencies.kotlinJUnit
+    testImplementation testDependencies.mockWebServer
+    testImplementation testDependencies.kotlinRunnerJUnit
+
+
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+
+}

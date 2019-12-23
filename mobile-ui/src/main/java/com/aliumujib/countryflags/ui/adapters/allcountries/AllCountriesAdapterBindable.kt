@@ -1,0 +1,3 @@
+package com.aliumujib.countryflags.ui.adapters.allcountries
+
+interface AllCountriesAdapterBindable

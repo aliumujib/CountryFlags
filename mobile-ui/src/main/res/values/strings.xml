@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">Countries</string>
+
+    <string name="empty">No countries to display</string>
+
+</resources>

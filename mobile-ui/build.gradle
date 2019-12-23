@@ -1,0 +1,150 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'androidx.navigation.safeargs'
+
+android {
+    compileSdkVersion rootProject.ext.compileSdkVersion
+
+    defaultConfig {
+        applicationId "com.aliumujib.countryflags"
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
+        versionCode rootProject.ext.versionCode
+        versionName rootProject.ext.versionName
+        multiDexEnabled true
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            buildConfigField "String", "API_URL", '\"https://swapi.co/api/\"'
+        }
+        debug {
+            buildConfigField "String", "API_URL", '\"https://restcountries.eu/rest/v2/\"'
+        }
+    }
+
+    androidExtensions {
+        experimental = true
+    }
+
+
+    dataBinding {
+        enabled = true
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    def appDependencies = rootProject.ext.appDependencies
+    def testDependencies = rootProject.ext.testDependencies
+
+    implementation(
+            appDependencies.dagger,
+            appDependencies.daggerAndroidSupport,
+            appDependencies.recyclerView,
+            appDependencies.rxJava,
+            appDependencies.rxAndroid,
+            appDependencies.design,
+            appDependencies.leakCanary,
+            appDependencies.cardView,
+            appDependencies.constraintLayout,
+            appDependencies.picassoImageLoader,
+            appDependencies.multiDex,
+            appDependencies.ankoSDK25,
+            appDependencies.ankoSDK25Coroutines,
+            appDependencies.materialDesignSpecs,
+            appDependencies.jodaTime,
+            appDependencies.lifeCycleExtensions,
+            appDependencies.picassoTransformations,
+            appDependencies.circleImageView,
+            appDependencies.stetho,
+            appDependencies.rxBindingPlatform,
+            appDependencies.timber,
+            appDependencies.javaxAnnotation,
+            appDependencies.javaxAnnotation,
+            appDependencies.roomDB,
+            appDependencies.rxBinding,
+            appDependencies.rxBindingSwipeRefreshLayout,
+            appDependencies.glide,
+            appDependencies.androidsvg,
+            project(':domain'),
+            project(':presentation'),
+            project(':data'),
+            project(':cache'),
+            project(':remote')
+    )
+
+    implementation 'android.arch.navigation:navigation-fragment:1.0.0'
+    implementation 'android.arch.navigation:navigation-ui:1.0.0'
+    implementation 'android.arch.navigation:navigation-ui-ktx:1.0.0'
+
+    kapt appDependencies.daggerCompiler
+    kapt appDependencies.daggerAndroidCompiler
+    kapt appDependencies.glideCompiler
+
+
+    testImplementation(
+            testDependencies.junit,
+            testDependencies.assertj,
+            testDependencies.mockito,
+            testDependencies.mockitoKotlin,
+            testDependencies.mockWebServer,
+            testDependencies.leakCanaryNoOp,
+            testDependencies.robolectric,
+            testDependencies.archTesting,
+            testDependencies.konveyor,
+            testDependencies.kotlinRunnerJUnit
+    )
+
+
+    // Instrumentation test dependencies
+    androidTestImplementation testDependencies.junit
+    androidTestImplementation testDependencies.mockito
+    androidTestImplementation testDependencies.mockitoAndroid
+    androidTestImplementation(testDependencies.espressoCore) {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    }
+    androidTestImplementation(testDependencies.androidRunner) {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    }
+    androidTestImplementation(testDependencies.androidRules) {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    }
+    androidTestImplementation(testDependencies.espressoIntents) {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    }
+    androidTestImplementation(testDependencies.espressoContrib) {
+        exclude module: 'appcompat'
+        exclude module: 'appcompat-v7'
+        exclude module: 'support-v4'
+        exclude module: 'support-v13'
+        exclude module: 'support-annotations'
+        exclude module: 'recyclerview-v7'
+        exclude module: 'design'
+    }
+
+    kaptTest testDependencies.daggerCompiler
+    kaptAndroidTest testDependencies.daggerCompiler
+
+    androidTestImplementation(testDependencies.espressoContrib) {
+        exclude module: "support-annotations"
+        exclude module: "support-v4"
+        exclude module: "design"
+        exclude module: "recyclerview-v7"
+    }
+
+}
