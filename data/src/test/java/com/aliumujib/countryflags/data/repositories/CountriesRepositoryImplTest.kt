@@ -7,10 +7,11 @@ import com.aliumujib.countryflags.data.mapper.CountryEntityMapper
 import com.aliumujib.countryflags.data.mapper.CurrencyEntityMapper
 import com.aliumujib.countryflags.data.mapper.LanguageEntityMapper
 import com.aliumujib.countryflags.data.model.CountryEntity
+import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.verify
 import com.nhaarman.mockito_kotlin.whenever
 import io.reactivex.Flowable
-import io.reactivex.Single
+import io.reactivex.Maybe
 import org.junit.Before
 import org.junit.Test
 import org.mockito.Mock
@@ -47,27 +48,35 @@ class CountriesRepositoryImplTest {
 
 
     @Test
-    fun `check that calling refreshCountries on repository calls remote implementation`() {
+    fun `check that calling fetchCountries on repository with isConnected as true calls remote implementation`() {
         val data = DummyDataFactory.makeCountryEntityList(10)
         stubGetCountriesRemoteResponse(data)
-        countriesRepositoryImpl.refreshCountries().test()
+        countriesRepositoryImpl.fetchCountries(true).test()
         verify(iCountriesRemote).fetchAllCountries()
+    }
+
+    @Test
+    fun `check that calling fetchCountries on repository with isConnected as false calls cache implementation`() {
+        val data = DummyDataFactory.makeCountryEntityList(10)
+        stubGetCountriesCacheResponse(data)
+        countriesRepositoryImpl.fetchCountries(false).test()
+        verify(iCountriesCache).fetchCountries()
     }
 
 
     @Test
-    fun `check that calling refreshCountries on repository completes`() {
+    fun `check that calling searchCountries on repository completes`() {
         val data = DummyDataFactory.makeCountryEntityList(10)
-        stubGetCountriesRemoteResponse(data)
-        val testObserver = countriesRepositoryImpl.refreshCountries().test()
+        stubSearchCountriesRemoteResponse("deeee",data)
+        val testObserver = countriesRepositoryImpl.searchCountries("deeee").test()
         testObserver.assertComplete()
     }
 
     @Test
-    fun `check that calling refreshCountries on repository saves data when returned`() {
+    fun `check that calling fetchAllCountries on repository when is connected is true saves data when successful`() {
         val data = DummyDataFactory.makeCountryEntityList(10)
         stubGetCountriesRemoteResponse(data)
-        countriesRepositoryImpl.refreshCountries().test()
+        countriesRepositoryImpl.fetchCountries(true).test()
         verify(iCountriesCache).saveCountries(data)
     }
 
@@ -76,8 +85,8 @@ class CountriesRepositoryImplTest {
     fun `check that calling fetchCountries on repository returns correct data`() {
         val data = DummyDataFactory.makeCountryEntityList(10)
         val mappedData = countryEntityMapper.mapFromEntityList(data)
-        stubGetCountriesCacheResponse(data)
-        val testObserver = countriesRepositoryImpl.fetchCountries().test()
+        stubGetCountriesRemoteResponse(data)
+        val testObserver = countriesRepositoryImpl.fetchCountries(true).test()
         testObserver.assertValue(mappedData)
     }
 
@@ -87,14 +96,22 @@ class CountriesRepositoryImplTest {
         countries: List<CountryEntity>
     ) {
         whenever(iCountriesCache.fetchCountries())
-            .thenReturn(Flowable.just(countries))
+            .thenReturn(Maybe.just(countries))
     }
 
     private fun stubGetCountriesRemoteResponse(
         countries: List<CountryEntity>
     ) {
         whenever(iCountriesRemote.fetchAllCountries())
-            .thenReturn(Single.just(countries))
+            .thenReturn(Maybe.just(countries))
+    }
+
+    private fun stubSearchCountriesRemoteResponse(
+        query:String,
+        countries: List<CountryEntity>
+    ) {
+        whenever(iCountriesRemote.searchCountries(query))
+            .thenReturn(Maybe.just(countries))
     }
 
 }

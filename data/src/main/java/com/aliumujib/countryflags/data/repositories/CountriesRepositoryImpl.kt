@@ -5,8 +5,7 @@ import com.aliumujib.countryflags.data.contracts.ICountriesRemote
 import com.aliumujib.countryflags.data.mapper.CountryEntityMapper
 import com.aliumujib.countryflags.domain.models.Country
 import com.aliumujib.countryflags.domain.repositories.countries.ICountriesRepository
-import io.reactivex.Completable
-import io.reactivex.Flowable
+import io.reactivex.Maybe
 import javax.inject.Inject
 
 class CountriesRepositoryImpl @Inject constructor(
@@ -15,18 +14,24 @@ class CountriesRepositoryImpl @Inject constructor(
     private val countriesCache: ICountriesCache
 ) : ICountriesRepository {
 
-    override fun fetchCountries(): Flowable<List<Country>> {
-        return countriesCache.fetchCountries().map {
-            countryEntityMapper.mapFromEntityList(it)
+    override fun fetchCountries(connected: Boolean): Maybe<List<Country>> {
+        return if (connected) {
+            countriesRemote.fetchAllCountries().map {
+                countryEntityMapper.mapFromEntityList(it)
+            }.doOnSuccess {
+                countriesCache.saveCountries(countryEntityMapper.mapToEntityList(it))
+            }
+        } else {
+            countriesCache.fetchCountries().map {
+                countryEntityMapper.mapFromEntityList(it)
+            }
         }
     }
 
-    override fun refreshCountries(): Completable {
-        return countriesRemote.fetchAllCountries().map {
+    override fun searchCountries(query: String): Maybe<List<Country>> {
+        return countriesRemote.searchCountries(query).map {
             countryEntityMapper.mapFromEntityList(it)
-        }.doOnSuccess {
-            countriesCache.saveCountries(countryEntityMapper.mapToEntityList(it))
-        }.toCompletable()
+        }
     }
 
 }

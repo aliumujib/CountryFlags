@@ -162,7 +162,8 @@ ext {
             rxBindingSwipeRefreshLayout            : 'com.jakewharton.rxbinding3:rxbinding-swiperefreshlayout:3.1.0',
             glide                                  : 'com.github.bumptech.glide:glide:4.10.0',
             glideCompiler                          : 'com.github.bumptech.glide:compiler:4.10.0',
-            androidsvg                             : 'com.caverock:androidsvg-aar:1.4'
+            androidsvg                             : 'com.caverock:androidsvg-aar:1.4',
+            rxbindingAppcompat                     : 'com.jakewharton.rxbinding3:rxbinding-appcompat:3.1.0'
     ]
 
     testDependencies = [

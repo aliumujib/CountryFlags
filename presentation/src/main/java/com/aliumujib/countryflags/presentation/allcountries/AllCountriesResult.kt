@@ -10,9 +10,9 @@ sealed class AllCountriesResult : MVIResult {
         data class Error(val error: Throwable) : LoadAllCountriesResults()
     }
 
-    sealed class RefreshAllCountriesResults() : AllCountriesResult() {
-        object Success : RefreshAllCountriesResults()
-        object Refreshing : RefreshAllCountriesResults()
-        data class Error(val error: Throwable) : RefreshAllCountriesResults()
+    sealed class SearchAllCountriesResults() : AllCountriesResult() {
+        data class Success(val data: List<CountryPresentationModel>) : SearchAllCountriesResults()
+        object Refreshing : SearchAllCountriesResults()
+        data class Error(val error: Throwable) : SearchAllCountriesResults()
     }
 }

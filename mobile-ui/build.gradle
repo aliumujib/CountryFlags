@@ -81,6 +81,7 @@ dependencies {
             appDependencies.rxBindingSwipeRefreshLayout,
             appDependencies.glide,
             appDependencies.androidsvg,
+            appDependencies.rxbindingAppcompat,
             project(':domain'),
             project(':presentation'),
             project(':data'),

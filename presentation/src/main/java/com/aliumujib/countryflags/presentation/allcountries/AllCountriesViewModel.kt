@@ -20,7 +20,7 @@ class AllCountriesViewModel @Inject constructor(
         ObservableTransformer<AllCountriesIntent, AllCountriesIntent> { intents ->
             intents.publish { shared ->
                 Observable.merge(
-                    shared.ofType(AllCountriesIntent.LoadAllCountriesIntent::class.java).take(1),
+                    shared.ofType(AllCountriesIntent.LoadAllCountriesIntent::class.java),
                     shared.notOfType(AllCountriesIntent.LoadAllCountriesIntent::class.java)
                 )
             }
@@ -41,8 +41,8 @@ class AllCountriesViewModel @Inject constructor(
 
     private fun actionFromIntent(intent: AllCountriesIntent): AllCountriesAction {
         return when (intent) {
-            is AllCountriesIntent.LoadAllCountriesIntent -> AllCountriesAction.LoadAllCountriesAction
-            is AllCountriesIntent.RefreshAllCountriesIntent -> AllCountriesAction.RefreshAllCountriesAction
+            is AllCountriesIntent.LoadAllCountriesIntent -> AllCountriesAction.LoadAllCountriesAction(intent.isOnline)
+            is AllCountriesIntent.SearchAllCountriesIntent -> AllCountriesAction.SearchAllCountriesAction(intent.query)
         }
     }
 
@@ -50,7 +50,7 @@ class AllCountriesViewModel @Inject constructor(
         observable.subscribe(intentsSubject)
     }
 
-    override fun states(): Observable<AllCountriesViewState>  = statesObservable
+    override fun states(): Observable<AllCountriesViewState> = statesObservable
 
 
     companion object {
@@ -73,16 +73,17 @@ class AllCountriesViewModel @Inject constructor(
                             )
                         }
                     }
-                    is RefreshAllCountriesResults -> {
+                    is SearchAllCountriesResults -> {
                         when (result) {
-                            is RefreshAllCountriesResults.Success -> previousState.copy(
+                            is SearchAllCountriesResults.Success -> previousState.copy(
+                                data = result.data,
                                 isLoading = false
                             )
-                            is RefreshAllCountriesResults.Error -> previousState.copy(
+                            is SearchAllCountriesResults.Error -> previousState.copy(
                                 isLoading = false,
                                 error = result.error
                             )
-                            is RefreshAllCountriesResults.Refreshing -> previousState.copy(
+                            is SearchAllCountriesResults.Refreshing -> previousState.copy(
                                 isLoading = true
                             )
                         }

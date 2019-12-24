@@ -2,7 +2,7 @@ package com.aliumujib.countryflags.presentation.allcountries
 
 
 import com.aliumujib.countryflags.domain.usecases.countries.FetchAllCountries
-import com.aliumujib.countryflags.domain.usecases.countries.RefreshCountries
+import com.aliumujib.countryflags.domain.usecases.countries.SearchCountries
 import com.aliumujib.countryflags.presentation.mappers.CountryModelPresentationMapper
 import io.reactivex.Observable
 import io.reactivex.ObservableTransformer
@@ -11,7 +11,7 @@ import javax.inject.Inject
 
 class AllCountriesProcessorHolder @Inject constructor(
     private val fetchAllCountries: FetchAllCountries,
-    private val refreshCountries: RefreshCountries,
+    private val searchCountries: SearchCountries,
     private val countriesMapper: CountryModelPresentationMapper
 ) {
     fun unsubscribe() {
@@ -20,12 +20,13 @@ class AllCountriesProcessorHolder @Inject constructor(
 
     private val loadAllCountriesProcessor =
         ObservableTransformer<AllCountriesAction.LoadAllCountriesAction, AllCountriesResult.LoadAllCountriesResults> {
-            it.flatMap {
-                fetchAllCountries.execute().map { countries ->
-                    AllCountriesResult.LoadAllCountriesResults.Success(countries.map { country ->
-                        countriesMapper.mapToPresentation(country)
-                    })
-                }.cast(AllCountriesResult.LoadAllCountriesResults::class.java)
+            it.flatMap { action ->
+                fetchAllCountries.execute(FetchAllCountries.Params.make(action.isConnected))
+                    .map { countries ->
+                        AllCountriesResult.LoadAllCountriesResults.Success(countries.map { country ->
+                            countriesMapper.mapToPresentation(country)
+                        })
+                    }.cast(AllCountriesResult.LoadAllCountriesResults::class.java)
                     .onErrorReturn { error ->
                         AllCountriesResult.LoadAllCountriesResults.Error(error)
                     }.toObservable()
@@ -34,18 +35,19 @@ class AllCountriesProcessorHolder @Inject constructor(
         }
 
 
-    private val refreshAllCountriesProcessor =
-        ObservableTransformer<AllCountriesAction.RefreshAllCountriesAction, AllCountriesResult.RefreshAllCountriesResults> {
-            it.flatMap {
-                refreshCountries.execute()
-                    .toMaybe<Boolean>()
-                    .map { _ ->
-                        AllCountriesResult.RefreshAllCountriesResults.Success
-                    }.cast(AllCountriesResult.RefreshAllCountriesResults::class.java)
+    private val searchAllCountriesProcessor =
+        ObservableTransformer<AllCountriesAction.SearchAllCountriesAction, AllCountriesResult.SearchAllCountriesResults> {
+            it.flatMap {action->
+                searchCountries.execute(SearchCountries.Params.make(action.query))
+                    .map { data ->
+                        AllCountriesResult.SearchAllCountriesResults.Success(data.map { country ->
+                            countriesMapper.mapToPresentation(country)
+                        })
+                    }.cast(AllCountriesResult.SearchAllCountriesResults::class.java)
                     .onErrorReturn { error ->
-                        AllCountriesResult.RefreshAllCountriesResults.Error(error)
+                        AllCountriesResult.SearchAllCountriesResults.Error(error)
                     }.toObservable()
-                    .startWith(AllCountriesResult.RefreshAllCountriesResults.Refreshing)
+                    .startWith(AllCountriesResult.SearchAllCountriesResults.Refreshing)
             }
         }
 
@@ -57,13 +59,13 @@ class AllCountriesProcessorHolder @Inject constructor(
                     shared.ofType(AllCountriesAction.LoadAllCountriesAction::class.java).compose(
                         loadAllCountriesProcessor
                     ),
-                    shared.ofType(AllCountriesAction.RefreshAllCountriesAction::class.java).compose(
-                        refreshAllCountriesProcessor
+                    shared.ofType(AllCountriesAction.SearchAllCountriesAction::class.java).compose(
+                        searchAllCountriesProcessor
                     )
                 )
                     .mergeWith(
                         shared.filter { action ->
-                            action !is AllCountriesAction.LoadAllCountriesAction && action !is AllCountriesAction.RefreshAllCountriesAction
+                            action !is AllCountriesAction.LoadAllCountriesAction && action !is AllCountriesAction.SearchAllCountriesAction
                         }.flatMap { type ->
                             Observable.error<AllCountriesResult> {
                                 IllegalStateException("Unknown action type ${type::class.java.simpleName} cannot be handled.")

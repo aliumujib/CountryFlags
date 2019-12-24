@@ -21,6 +21,7 @@ class AllCountriesActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        setSupportActionBar(toolbar)
         NavigationUI.setupWithNavController(toolbar, navController)
 
     }
