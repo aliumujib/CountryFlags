@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.aliumujib.countryflags.R
 import com.aliumujib.countryflags.domain.usecases.countries.SearchCountries
 import com.aliumujib.countryflags.mappers.CountryModelMapper
+import com.aliumujib.countryflags.models.CountryModel
 import com.aliumujib.countryflags.presentation.allcountries.AllCountriesAction
 import com.aliumujib.countryflags.presentation.allcountries.AllCountriesIntent
 import com.aliumujib.countryflags.presentation.allcountries.AllCountriesViewModel
@@ -71,15 +72,17 @@ class AllCountriesFragment : DaggerFragment(), MVIView<AllCountriesIntent, AllCo
     }
 
     private fun closeSearchIntent(): Observable<AllCountriesIntent.LoadAllCountriesIntent> {
-        return closeSearchSubject.flatMap {
-            loadIntent()
-        }
+        return closeSearchSubject.throttleFirst(1, TimeUnit.SECONDS)
+            .flatMap {
+                loadIntent()
+            }
     }
 
     private fun searchIntents(): Observable<AllCountriesIntent.SearchAllCountriesIntent> {
-        return searchQuerySubject.map {
-            AllCountriesIntent.SearchAllCountriesIntent(it)
-        }
+        return searchQuerySubject
+            .map {
+                AllCountriesIntent.SearchAllCountriesIntent(it)
+            }
     }
 
     private fun refreshIntent(): Observable<AllCountriesIntent.LoadAllCountriesIntent> {
@@ -137,20 +140,48 @@ class AllCountriesFragment : DaggerFragment(), MVIView<AllCountriesIntent, AllCo
         allCountriesViewModel.processIntents(intents())
     }
 
+
     override fun render(state: AllCountriesViewState) {
+        when (state) {
+            is AllCountriesViewState.Success -> presentSuccessState(state.countries.map {
+                countryModelMapper.mapToView(it)
+            })
+            is AllCountriesViewState.Error -> presentErrorState(state.throwable)
+            AllCountriesViewState.Loading -> presentLoadingState()
+            AllCountriesViewState.Idle -> {
+
+            }
+        }
+    }
+
+    private fun presentSuccessState(data: List<CountryModel>) {
         swipe_refresh_layout.post {
-            swipe_refresh_layout.isRefreshing = state.isLoading
+            swipe_refresh_layout.isRefreshing = false
         }
-        emptyView.visible = state.data.isEmpty() && state.isLoading.not() && (state.error == null)
-        errorView.visible = (state.error != null) && (state.isLoading.not())
-        recycler_view.visible = state.data.isNotEmpty() && (state.error == null)
-        rvAdapter.updateData(state.data.map {
-            countryModelMapper.mapToView(it)
-        })
-        state.error?.let { error ->
-            errorView.text = error.message
-            Toast.makeText(context, error.message, Toast.LENGTH_LONG).show()
+        emptyView.visible = false
+        errorView.visible = false
+        recycler_view.visible = true
+        rvAdapter.updateData(data)
+    }
+
+    private fun presentErrorState(error: Throwable) {
+        swipe_refresh_layout.post {
+            swipe_refresh_layout.isRefreshing = false
         }
+        emptyView.visible = false
+        errorView.visible = true
+        recycler_view.visible = false
+        errorView.text = error.message
+        Toast.makeText(context, error.message, Toast.LENGTH_LONG).show()
+    }
+
+    private fun presentLoadingState() {
+        swipe_refresh_layout.post {
+            swipe_refresh_layout.isRefreshing = true
+        }
+        emptyView.visible = false
+        errorView.visible = false
+        recycler_view.visible = true
     }
 
 
@@ -170,6 +201,11 @@ class AllCountriesFragment : DaggerFragment(), MVIView<AllCountriesIntent, AllCo
             return@setOnCloseListener false
         }
         super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        disposables.dispose()
     }
 
 

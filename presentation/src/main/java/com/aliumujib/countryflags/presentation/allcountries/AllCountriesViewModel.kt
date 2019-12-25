@@ -32,7 +32,7 @@ class AllCountriesViewModel @Inject constructor(
         return intentsSubject.compose(intentFilter)
             .map(this::actionFromIntent)
             .compose(processorHolder.actionProcessor)
-            .scan(AllCountriesViewState.idle(), reducer)
+            .scan<AllCountriesViewState>(AllCountriesViewState.Idle, reducer)
             .distinctUntilChanged()
             .replay(1)
             .autoConnect(0)
@@ -64,34 +64,22 @@ class AllCountriesViewModel @Inject constructor(
                 when (result) {
                     is LoadAllCountriesResults -> {
                         when (result) {
-                            is LoadAllCountriesResults.Success -> previousState.copy(
-                                isLoading = false,
-                                data = result.data,
-                                error = null
+                            is LoadAllCountriesResults.Success -> AllCountriesViewState.Success(
+                                result.data
                             )
-                            is LoadAllCountriesResults.Error -> previousState.copy(
-                                isLoading = false,
-                                error = result.error
+                            is LoadAllCountriesResults.Error -> AllCountriesViewState.Error(
+                                result.error
                             )
-                            is LoadAllCountriesResults.Loading -> previousState.copy(
-                                isLoading = true
-                            )
+                            is LoadAllCountriesResults.Loading -> AllCountriesViewState.Loading
                         }
                     }
                     is SearchAllCountriesResults -> {
                         when (result) {
-                            is SearchAllCountriesResults.Success -> previousState.copy(
-                                data = result.data,
-                                isLoading = false,
-                                error = null
+                            is SearchAllCountriesResults.Success -> AllCountriesViewState.Success(
+                                result.data
                             )
-                            is SearchAllCountriesResults.Error -> previousState.copy(
-                                isLoading = false,
-                                error = result.error
-                            )
-                            is SearchAllCountriesResults.Refreshing -> previousState.copy(
-                                isLoading = true
-                            )
+                            is SearchAllCountriesResults.Error -> AllCountriesViewState.Error(result.error)
+                            is SearchAllCountriesResults.Refreshing -> AllCountriesViewState.Loading
                         }
                     }
                 }
