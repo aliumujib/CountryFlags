@@ -49,6 +49,15 @@ object PresentationDataFactory {
         return randomBuild()
     }
 
+
+    fun makeCountryPresentationList(count: Int): List<CountryPresentationModel> {
+        val mutableList = mutableListOf<CountryPresentationModel>()
+        repeat(count) {
+            mutableList.add(makeRandomCountryPresentationModel())
+        }
+        return mutableList
+    }
+
     fun makeCountryList(count: Int): List<Country> {
         val articles = mutableListOf<Country>()
         repeat(count) {
