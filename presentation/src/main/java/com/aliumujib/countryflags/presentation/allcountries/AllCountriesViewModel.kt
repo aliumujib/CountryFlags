@@ -41,8 +41,12 @@ class AllCountriesViewModel @Inject constructor(
 
     private fun actionFromIntent(intent: AllCountriesIntent): AllCountriesAction {
         return when (intent) {
-            is AllCountriesIntent.LoadAllCountriesIntent -> AllCountriesAction.LoadAllCountriesAction(intent.isOnline)
-            is AllCountriesIntent.SearchAllCountriesIntent -> AllCountriesAction.SearchAllCountriesAction(intent.query)
+            is AllCountriesIntent.LoadAllCountriesIntent -> AllCountriesAction.LoadAllCountriesAction(
+                intent.isOnline
+            )
+            is AllCountriesIntent.SearchAllCountriesIntent -> AllCountriesAction.SearchAllCountriesAction(
+                intent.query
+            )
         }
     }
 
@@ -62,7 +66,8 @@ class AllCountriesViewModel @Inject constructor(
                         when (result) {
                             is LoadAllCountriesResults.Success -> previousState.copy(
                                 isLoading = false,
-                                data = result.data
+                                data = result.data,
+                                error = null
                             )
                             is LoadAllCountriesResults.Error -> previousState.copy(
                                 isLoading = false,
@@ -77,7 +82,8 @@ class AllCountriesViewModel @Inject constructor(
                         when (result) {
                             is SearchAllCountriesResults.Success -> previousState.copy(
                                 data = result.data,
-                                isLoading = false
+                                isLoading = false,
+                                error = null
                             )
                             is SearchAllCountriesResults.Error -> previousState.copy(
                                 isLoading = false,

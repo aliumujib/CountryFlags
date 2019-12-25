@@ -4,11 +4,8 @@ import android.content.Context
 import androidx.room.Room
 import com.aliumujib.countryflags.cache.implementation.CountriesCacheImpl
 import com.aliumujib.countryflags.cache.room.CountriesDao
-import com.aliumujib.countryflags.cache.room.CoutriesDB
+import com.aliumujib.countryflags.cache.room.CountriesDB
 import com.aliumujib.countryflags.data.contracts.ICountriesCache
-import com.aliumujib.countryflags.data.repositories.CountriesRepositoryImpl
-import com.aliumujib.countryflags.domain.repositories.countries.ICountriesRepository
-import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -25,14 +22,14 @@ import javax.inject.Singleton
 
     @Provides
     @Singleton
-    fun providesMTNFDB(context: Context): CoutriesDB =
+    fun providesMTNFDB(context: Context): CountriesDB =
         Room.databaseBuilder(
             context.applicationContext,
-            CoutriesDB::class.java,
+            CountriesDB::class.java,
             "CountriesDatabase"
         ).fallbackToDestructiveMigration().build()
 
     @Provides
     @Singleton
-    fun providesUserDao(database: CoutriesDB): CountriesDao = database.countriesDao()
+    fun providesUserDao(database: CountriesDB): CountriesDao = database.countriesDao()
 }

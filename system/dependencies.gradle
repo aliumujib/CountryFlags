@@ -189,6 +189,7 @@ ext {
             daggerAndroidCompiler: "com.google.dagger:dagger-android-processor:${daggerVersion}",
             dagger               : "com.google.dagger:dagger:${daggerVersion}",
             robolectric          : "org.robolectric:robolectric:${robolectricVersion}",
-            archTesting          : "android.arch.core:core-testing:${roomVersion}"
+            archTesting          : "android.arch.core:core-testing:${roomVersion}",
+            roomTesting          : "android.arch.persistence.room:testing:${roomVersion}"
     ]
 }

@@ -18,7 +18,7 @@ import com.aliumujib.countryflags.cache.models.CountryCacheModel
 @TypeConverters(
     Converters::class
 )
-abstract class CoutriesDB : RoomDatabase() {
+abstract class CountriesDB : RoomDatabase() {
 
     abstract fun countriesDao(): CountriesDao
 

@@ -44,7 +44,9 @@ dependencies {
     testImplementation testDependencies.kotlinJUnit
     testImplementation testDependencies.mockWebServer
     testImplementation testDependencies.kotlinRunnerJUnit
-
+    testImplementation testDependencies.archTesting
+    testImplementation testDependencies.roomTesting
+    testImplementation testDependencies.robolectric
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 

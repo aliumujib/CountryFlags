@@ -26,6 +26,7 @@ import com.jakewharton.rxbinding3.appcompat.queryTextChangeEvents
 import com.jakewharton.rxbinding3.swiperefreshlayout.refreshes
 import dagger.android.support.DaggerFragment
 import io.reactivex.Observable
+import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.subjects.PublishSubject
 import kotlinx.android.synthetic.main.search_fragment.*
@@ -142,7 +143,7 @@ class AllCountriesFragment : DaggerFragment(), MVIView<AllCountriesIntent, AllCo
         }
         emptyView.visible = state.data.isEmpty() && state.isLoading.not() && (state.error == null)
         errorView.visible = (state.error != null) && (state.isLoading.not())
-        recycler_view.visible = state.data.isNotEmpty()
+        recycler_view.visible = state.data.isNotEmpty() && (state.error == null)
         rvAdapter.updateData(state.data.map {
             countryModelMapper.mapToView(it)
         })
@@ -158,14 +159,15 @@ class AllCountriesFragment : DaggerFragment(), MVIView<AllCountriesIntent, AllCo
         disposables.add((menu?.findItem(R.id.app_search)?.actionView as SearchView).queryTextChangeEvents()
             .filter {
                 it.queryText.isNotEmpty()
-            }
+            }.debounce(800, TimeUnit.MILLISECONDS)
+            .observeOn(AndroidSchedulers.mainThread())
             .subscribe {
                 searchQuerySubject.onNext(it.queryText.toString())
             })
 
         (menu.findItem(R.id.app_search)?.actionView as SearchView).setOnCloseListener {
             closeSearchSubject.onNext(Unit)
-            return@setOnCloseListener true
+            return@setOnCloseListener false
         }
         super.onCreateOptionsMenu(menu, inflater)
     }

@@ -7,10 +7,8 @@ import com.aliumujib.countryflags.data.mapper.CountryEntityMapper
 import com.aliumujib.countryflags.data.mapper.CurrencyEntityMapper
 import com.aliumujib.countryflags.data.mapper.LanguageEntityMapper
 import com.aliumujib.countryflags.data.model.CountryEntity
-import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.verify
 import com.nhaarman.mockito_kotlin.whenever
-import io.reactivex.Flowable
 import io.reactivex.Maybe
 import org.junit.Before
 import org.junit.Test
