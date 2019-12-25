@@ -15,7 +15,7 @@ import kotlin.test.assertEquals
 class CurrencyCacheModelMapperTest {
 
 
-    var currencyCacheModelMapper: CurrencyCacheModelMapper = CurrencyCacheModelMapper()
+    private val currencyCacheModelMapper: CurrencyCacheModelMapper = CurrencyCacheModelMapper()
 
     @Before
     fun setup() {
@@ -25,16 +25,16 @@ class CurrencyCacheModelMapperTest {
 
     @Test
     fun `check that CurrencyEntity mapped to domain Currency contains correct info`() {
-        var entity: CurrencyEntity = CacheDataFactory.makeRandomCurrencyEntity()
-        var planet = currencyCacheModelMapper.mapToModel(entity)
+        val entity: CurrencyEntity = CacheDataFactory.makeRandomCurrencyEntity()
+        val planet = currencyCacheModelMapper.mapToModel(entity)
         assertEqualData(entity, planet)
     }
 
 
     @Test
     fun `check that Currency mapped to data CurrencyEntity contains correct info`() {
-        var currency: CurrencyCacheModel = CacheDataFactory.makeRandomCurrencyCacheModel()
-        var entity = currencyCacheModelMapper.mapFromModel(currency)
+        val currency: CurrencyCacheModel = CacheDataFactory.makeRandomCurrencyCacheModel()
+        val entity = currencyCacheModelMapper.mapFromModel(currency)
         assertEqualData(entity, currency)
     }
 

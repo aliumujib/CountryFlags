@@ -14,7 +14,7 @@ import kotlin.test.assertEquals
 @RunWith(JUnit4::class)
 class LanguageCacheModelMapperTest {
 
-    var languageCacheModelMapper: LanguageCacheModelMapper = LanguageCacheModelMapper()
+    private val languageCacheModelMapper: LanguageCacheModelMapper = LanguageCacheModelMapper()
 
     @Before
     fun setup() {
