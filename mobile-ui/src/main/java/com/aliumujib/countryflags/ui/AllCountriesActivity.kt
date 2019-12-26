@@ -23,8 +23,6 @@ class AllCountriesActivity : AppCompatActivity(), HasSupportFragmentInjector {
         return fragmentInjector
     }
 
-
-
     @Inject
     lateinit var navigator: Navigator
 

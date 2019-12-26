@@ -15,9 +15,8 @@ import com.aliumujib.countryflags.models.HeaderModel
 import com.aliumujib.countryflags.ui.utils.imageloader.ImageLoader
 import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject
-import java.util.*
+import java.util.Collections.sort
 import javax.inject.Inject
-import kotlin.Comparator
 
 
 class AllCountriesAdapter @Inject constructor(
@@ -46,7 +45,7 @@ class AllCountriesAdapter @Inject constructor(
         )
     }
 
-    fun itemClicks(): Observable<CountryModel> {
+    fun countryClicks(): Observable<CountryModel> {
         return itemClickPublisher.take(1)
     }
 
@@ -57,10 +56,10 @@ class AllCountriesAdapter @Inject constructor(
 
     private fun sectionCountries(countryList: List<CountryModel>): MutableList<AllCountriesAdapterBindable> {
         val countries = mutableListOf<AllCountriesAdapterBindable>()
-        Collections.sort(countryList, Comparator<CountryModel> { user1, user2 ->
+        sort(countryList) { user1, user2 ->
             user1.name[0].toUpperCase()
                 .compareTo(user2.name[0])
-        })
+        }
         var lastHeader: String? = ""
         val size: Int = countryList.size
         for (i in 0 until size) {
