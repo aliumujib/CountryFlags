@@ -44,11 +44,5 @@ class AllCountriesActivity : AppCompatActivity(), HasSupportFragmentInjector {
         return true
     }
 
-    override fun onBackPressed() {
-        super.onBackPressed()
-        navigator.setupActionBar()
-    }
-
-
 
 }

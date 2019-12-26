@@ -3,6 +3,7 @@ package com.aliumujib.countryflags.ui.allcountries
 import android.content.Context
 import android.net.ConnectivityManager
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import android.widget.Toast
 import androidx.appcompat.widget.SearchView
@@ -130,7 +131,10 @@ class AllCountriesFragment : DaggerFragment(), MVIView<AllCountriesIntent, AllCo
             )
         }
 
-        disposables.addAll(rvAdapter.itemClickPublisher.subscribe(::openCountryDetails, ::navError))
+        disposables.addAll(
+            rvAdapter.itemClicks()
+                .subscribe(::openCountryDetails, ::navError)
+        )
 
     }
 

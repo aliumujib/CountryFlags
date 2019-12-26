@@ -6,7 +6,7 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="place_holder_name">Nigeria</string>
-    <string name="country_desc_format">%s is a country in %s, it has a population of %d people and its capital city is %s</string>
+    <string name="country_desc_format">%s is a country in %s, it has a population of %s people and its capital city is %s</string>
     <string name="calling_code_format">+%s</string>
 
 </resources>

@@ -12,6 +12,7 @@ import com.aliumujib.countryflags.models.CountryModel
 import com.aliumujib.countryflags.ui.utils.imageloader.ImageLoader
 import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.fragment_country_details.*
+import java.text.DecimalFormat
 import javax.inject.Inject
 
 class CountryDetailsFragment : DaggerFragment() {
@@ -25,8 +26,7 @@ class CountryDetailsFragment : DaggerFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-
+        setHasOptionsMenu(false)
     }
 
     override fun onCreateView(
@@ -37,16 +37,16 @@ class CountryDetailsFragment : DaggerFragment() {
         return inflater.inflate(R.layout.fragment_country_details, container, false)
     }
 
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         imageLoader.loadImage(country.flag, image)
         country_name.text = country.name
         country_details.text = getString(
             R.string.country_desc_format,
             country.name,
             country.subregion,
-            country.population,
+            DecimalFormat("#,###,###").format(country.population),
             country.capital
         )
         calling_codes.setText(
