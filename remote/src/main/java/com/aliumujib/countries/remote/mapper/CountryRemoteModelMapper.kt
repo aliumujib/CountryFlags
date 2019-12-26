@@ -31,7 +31,9 @@ class CountryRemoteModelMapper @Inject constructor(
             model.name,
             safeString(model.nativeName),
             safeString(model.numericCode),
-            safeInt(model.population)
+            safeInt(model.population),
+            safeString(model.region),
+            safeString(model.subregion)
         )
     }
 

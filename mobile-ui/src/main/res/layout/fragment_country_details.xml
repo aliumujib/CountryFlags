@@ -1,15 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:background="@color/mds_white"
         android:layout_height="match_parent"
+        android:background="@color/mds_white"
+        android:clickable="true"
+        android:padding="@dimen/activity_vertical_margin"
         tools:context=".ui.countrydetail.CountryDetailsFragment">
 
     <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
             android:id="@+id/country_name"
-            android:text="@string/hello_blank_fragment" />
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAllCaps="true"
+            android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="@string/place_holder_name" />
 
-</FrameLayout>
+    <TextView
+            android:id="@+id/country_details"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/top_margin_country_desc"
+            android:gravity="center"
+            android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+            app:layout_constraintEnd_toStartOf="parent"
+            app:layout_constraintStart_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/country_name"
+            tools:text="@string/country_desc_format" />
+
+
+    <ImageView
+            android:layout_width="68dp"
+            android:layout_height="48dp"
+            android:id="@+id/image"
+            android:layout_marginTop="@dimen/top_margin_flag_country_desc"
+            app:layout_constraintEnd_toEndOf="@+id/country_details"
+            app:layout_constraintStart_toStartOf="@+id/country_details"
+            app:layout_constraintTop_toBottomOf="@+id/country_details"
+            tools:src="@drawable/ic_launcher_background" />
+
+
+    <EditText
+            android:id="@+id/calling_codes"
+            app:layout_constraintEnd_toEndOf="@+id/country_details"
+            app:layout_constraintStart_toStartOf="@+id/country_details"
+            app:layout_constraintTop_toBottomOf="@+id/image"
+            android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+            android:layout_width="200dp"
+            android:gravity="center"
+            android:layout_marginTop="@dimen/top_margin_flag_country_desc"
+            android:layout_height="wrap_content" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -13,7 +13,7 @@ import dagger.Provides
 @Module
 class ImageLoaderModule {
 
-    @Provides
+    @Provides //TODO write coil ImageLoader https://github.com/coil-kt/coil/issues/6
     fun providesImageLoader(imageLoader: GlideImageLoader): ImageLoader {
         return imageLoader
     }

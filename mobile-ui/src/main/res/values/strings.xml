@@ -5,6 +5,8 @@
     <string name="error">There was an error fetching your data</string>
 
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="place_holder_name">Nigeria</string>
+    <string name="country_desc_format">%s is a country in %s, it has a population of %d people and its capital city is %s</string>
+    <string name="calling_code_format">+%s</string>
 
 </resources>
