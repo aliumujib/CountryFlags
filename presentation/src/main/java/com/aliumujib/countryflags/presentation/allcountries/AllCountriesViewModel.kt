@@ -8,6 +8,7 @@ import io.reactivex.Observable
 import io.reactivex.ObservableTransformer
 import io.reactivex.functions.BiFunction
 import io.reactivex.subjects.PublishSubject
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class AllCountriesViewModel @Inject constructor(
@@ -20,7 +21,7 @@ class AllCountriesViewModel @Inject constructor(
         ObservableTransformer<AllCountriesIntent, AllCountriesIntent> { intents ->
             intents.publish { shared ->
                 Observable.merge(
-                    shared.ofType(AllCountriesIntent.LoadAllCountriesIntent::class.java),
+                    shared.ofType(AllCountriesIntent.LoadAllCountriesIntent::class.java).take(1),
                     shared.notOfType(AllCountriesIntent.LoadAllCountriesIntent::class.java)
                 )
             }
@@ -46,6 +47,9 @@ class AllCountriesViewModel @Inject constructor(
             )
             is AllCountriesIntent.SearchAllCountriesIntent -> AllCountriesAction.SearchAllCountriesAction(
                 intent.query
+            )
+            is AllCountriesIntent.RefreshAllCountriesIntent -> AllCountriesAction.LoadAllCountriesAction(
+                intent.isOnline
             )
         }
     }

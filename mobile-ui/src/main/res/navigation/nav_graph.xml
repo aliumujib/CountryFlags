@@ -1,15 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/nav_graph"
         app:startDestination="@id/allCountriesFragment">
 
-    <fragment android:id="@+id/allCountriesFragment" android:name="com.aliumujib.countryflags.ui.allcountries.AllCountriesFragment"
-              android:label="All Countries">
-
-
+    <fragment
+            android:id="@+id/allCountriesFragment"
+            android:name="com.aliumujib.countryflags.ui.allcountries.AllCountriesFragment"
+            android:label="All Countries">
+        <action
+                android:id="@+id/action_allCountriesFragment_to_countryDetailsFragment"
+                app:destination="@id/countryDetailsFragment"
+                app:enterAnim="@anim/nav_default_enter_anim"
+                app:exitAnim="@anim/nav_default_exit_anim"
+                app:popEnterAnim="@anim/nav_default_enter_anim"
+                app:popExitAnim="@anim/nav_default_enter_anim" />
     </fragment>
 
+    <fragment
+            android:id="@+id/countryDetailsFragment"
+            android:name="com.aliumujib.countryflags.ui.countrydetail.CountryDetailsFragment"
+            android:label="fragment_country_details"
+            tools:layout="@layout/fragment_country_details">
+        <argument
+                android:name="country"
+                app:argType="com.aliumujib.countryflags.models.CountryModel" />
+    </fragment>
 
 
 </navigation>

@@ -1,7 +1,7 @@
 ext {
     //Android
     //Libraries
-    daggerVersion = '2.16'
+    daggerVersion = '2.23'
     butterKnifeVersion = '8.5.1'
     rxJavaVersion = '2.1.6'
     rxAndroidVersion = '2.0.1'
@@ -76,6 +76,7 @@ ext {
     dexmakerMockitoversion = '2.2.0'
     runnerVersion = '0.5'
     robolectricVersion = '3.4.2'
+    nav_version = "2.1.0"
 
 
     appDependencies = [
@@ -163,7 +164,10 @@ ext {
             glide                                  : 'com.github.bumptech.glide:glide:4.10.0',
             glideCompiler                          : 'com.github.bumptech.glide:compiler:4.10.0',
             androidsvg                             : 'com.caverock:androidsvg-aar:1.4',
-            rxbindingAppcompat                     : 'com.jakewharton.rxbinding3:rxbinding-appcompat:3.1.0'
+            rxbindingAppcompat                     : 'com.jakewharton.rxbinding3:rxbinding-appcompat:3.1.0',
+            navFragment                            : "androidx.navigation:navigation-fragment-ktx:${nav_version}",
+            navigationUI                           : "androidx.navigation:navigation-ui-ktx:${nav_version}",
+            androidXLegacy                         : "androidx.legacy:legacy-support-v4:1.0.0"
     ]
 
     testDependencies = [

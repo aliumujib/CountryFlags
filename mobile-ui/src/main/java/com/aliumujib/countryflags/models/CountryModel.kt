@@ -1,7 +1,10 @@
 package com.aliumujib.countryflags.models
 
+import android.os.Parcelable
 import com.aliumujib.countryflags.ui.adapters.allcountries.AllCountriesAdapterBindable
+import kotlinx.android.parcel.Parcelize
 
+@Parcelize
 data class CountryModel(
     val alpha2Code: String,
     val alpha3Code: String,
@@ -18,4 +21,4 @@ data class CountryModel(
     val nativeName: String,
     val numericCode: String,
     val population: Int
-) : AllCountriesAdapterBindable
+) : AllCountriesAdapterBindable, Parcelable

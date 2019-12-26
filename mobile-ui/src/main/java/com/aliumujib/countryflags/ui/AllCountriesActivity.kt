@@ -1,19 +1,34 @@
 package com.aliumujib.countryflags.ui
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.navigation.NavController
-import androidx.navigation.findNavController
+import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import androidx.navigation.ui.NavigationUI
 import com.aliumujib.countryflags.R
+import com.aliumujib.countryflags.navigator.Navigator
 import dagger.android.AndroidInjection
+import dagger.android.AndroidInjector
+import dagger.android.DispatchingAndroidInjector
+import dagger.android.HasActivityInjector
+import dagger.android.support.HasSupportFragmentInjector
 import kotlinx.android.synthetic.main.activity_main.*
+import javax.inject.Inject
 
-class AllCountriesActivity : AppCompatActivity() {
 
-    private val navController : NavController by lazy {
-        this.findNavController(R.id.mainHostFragment)
+class AllCountriesActivity : AppCompatActivity(), HasSupportFragmentInjector {
+
+    @Inject
+    lateinit var fragmentInjector: DispatchingAndroidInjector<Fragment>
+
+
+    override fun supportFragmentInjector(): AndroidInjector<Fragment> {
+        return fragmentInjector
     }
+
+
+
+    @Inject
+    lateinit var navigator: Navigator
 
     override fun onCreate(savedInstanceState: Bundle?) {
         AndroidInjection.inject(this)
@@ -22,12 +37,20 @@ class AllCountriesActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         setSupportActionBar(toolbar)
-        NavigationUI.setupWithNavController(toolbar, navController)
+        navigator.showCountryList()
 
     }
 
     override fun onSupportNavigateUp(): Boolean {
-        return navController.navigateUp()
+        navigator.goBack()
+        return true
     }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        navigator.setupActionBar()
+    }
+
+
 
 }

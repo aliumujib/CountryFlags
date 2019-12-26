@@ -12,13 +12,16 @@ import com.aliumujib.countryflags.R
 import com.aliumujib.countryflags.models.CountryModel
 import com.aliumujib.countryflags.models.HeaderModel
 import com.aliumujib.countryflags.ui.utils.imageloader.ImageLoader
+import io.reactivex.subjects.PublishSubject
+import org.jetbrains.anko.childrenRecursiveSequence
 import java.util.*
 import javax.inject.Inject
 import kotlin.Comparator
 
 
 class AllCountriesAdapter @Inject constructor(
-    val imageLoader: ImageLoader
+    private val imageLoader: ImageLoader,
+    val itemClickPublisher: PublishSubject<CountryModel>
 ) : Adapter<ViewHolder>() {
 
     private var modelList: MutableList<AllCountriesAdapterBindable> = mutableListOf()
@@ -89,6 +92,11 @@ class AllCountriesAdapter @Inject constructor(
             val countryModel: CountryModel = modelList[position] as CountryModel
             itemViewHolder.nameTextView.text = countryModel.name
             imageLoader.loadImage(countryModel.flag, itemViewHolder.countryFlag)
+            itemViewHolder.itemView.childrenRecursiveSequence().forEach { child ->
+                child.setOnClickListener {
+                    itemClickPublisher.onNext(countryModel)
+                }
+            }
         }
     }
 
@@ -102,13 +110,13 @@ class AllCountriesAdapter @Inject constructor(
     }
 
     class ItemViewHolder(itemView: View) : ViewHolder(itemView) {
-        var nameTextView: TextView = itemView.findViewById<View>(R.id.country_name) as TextView
-        var countryFlag: ImageView = itemView.findViewById<View>(R.id.country_logo) as ImageView
+        val nameTextView: TextView = itemView.findViewById<View>(R.id.country_name) as TextView
+        val countryFlag: ImageView = itemView.findViewById<View>(R.id.country_logo) as ImageView
 
     }
 
     inner class SectionHeaderViewHolder(itemView: View) : ViewHolder(itemView) {
-        internal var headerTitleTextview: TextView =
+        internal val headerTitleTextview: TextView =
             itemView.findViewById<View>(R.id.header_title) as TextView
 
     }

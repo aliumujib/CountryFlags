@@ -7,11 +7,13 @@ import android.view.*
 import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.NavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.aliumujib.countryflags.R
 import com.aliumujib.countryflags.domain.usecases.countries.SearchCountries
 import com.aliumujib.countryflags.mappers.CountryModelMapper
 import com.aliumujib.countryflags.models.CountryModel
+import com.aliumujib.countryflags.navigator.Navigator
 import com.aliumujib.countryflags.presentation.allcountries.AllCountriesAction
 import com.aliumujib.countryflags.presentation.allcountries.AllCountriesIntent
 import com.aliumujib.countryflags.presentation.allcountries.AllCountriesViewModel
@@ -20,6 +22,7 @@ import com.aliumujib.countryflags.presentation.mvibase.MVIView
 import com.aliumujib.countryflags.ui.adapters.allcountries.AllCountriesAdapter
 import com.aliumujib.countryflags.ui.inject.ViewModelFactory
 import com.aliumujib.countryflags.ui.utils.ext.dpToPx
+import com.aliumujib.countryflags.ui.utils.ext.findNavController
 import com.aliumujib.countryflags.ui.utils.ext.visible
 import com.aliumujib.countryflags.ui.utils.views.DividerItemDecoration
 import com.aliumujib.countryflags.ui.utils.views.SpacingItemDecoration
@@ -47,17 +50,18 @@ class AllCountriesFragment : DaggerFragment(), MVIView<AllCountriesIntent, AllCo
     @Inject
     lateinit var rvAdapter: AllCountriesAdapter
 
+    @Inject
+    lateinit var navigator: Navigator
+
     private val disposables = CompositeDisposable()
 
     private val searchQuerySubject = PublishSubject.create<String>()
 
     private val closeSearchSubject = PublishSubject.create<Unit>()
 
-
     private val allCountriesViewModel: AllCountriesViewModel by lazy {
         ViewModelProviders.of(this, viewModelFactory).get(AllCountriesViewModel::class.java)
     }
-
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -85,10 +89,10 @@ class AllCountriesFragment : DaggerFragment(), MVIView<AllCountriesIntent, AllCo
             }
     }
 
-    private fun refreshIntent(): Observable<AllCountriesIntent.LoadAllCountriesIntent> {
-        return swipe_refresh_layout.refreshes().flatMap {
-            loadIntent()
-        }.startWith(AllCountriesIntent.LoadAllCountriesIntent(checkIfIsConnectedPhone()))
+    private fun refreshIntent(): Observable<AllCountriesIntent.RefreshAllCountriesIntent> {
+        return swipe_refresh_layout.refreshes().map {
+            AllCountriesIntent.RefreshAllCountriesIntent(checkIfIsConnectedPhone())
+        }
     }
 
     private fun checkIfIsConnectedPhone(): Boolean {
@@ -128,6 +132,8 @@ class AllCountriesFragment : DaggerFragment(), MVIView<AllCountriesIntent, AllCo
             )
         }
 
+        disposables.addAll(rvAdapter.itemClickPublisher.subscribe(::openCountryDetails, ::navError))
+
     }
 
     override fun onStart() {
@@ -138,6 +144,14 @@ class AllCountriesFragment : DaggerFragment(), MVIView<AllCountriesIntent, AllCo
     private fun bind() {
         disposables.add(allCountriesViewModel.states().subscribe(this::render))
         allCountriesViewModel.processIntents(intents())
+    }
+
+    private fun openCountryDetails(country: CountryModel) {
+        navigator.goToDetailScreen(country)
+    }
+
+    private fun navError(throwable: Throwable) {
+        throwable.printStackTrace()
     }
 
 
@@ -185,9 +199,9 @@ class AllCountriesFragment : DaggerFragment(), MVIView<AllCountriesIntent, AllCo
     }
 
 
-    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater) {
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.search_toolbar, menu)
-        disposables.add((menu?.findItem(R.id.app_search)?.actionView as SearchView).queryTextChangeEvents()
+        disposables.add((menu.findItem(R.id.app_search).actionView as SearchView).queryTextChangeEvents()
             .filter {
                 it.queryText.isNotEmpty()
             }.debounce(800, TimeUnit.MILLISECONDS)
@@ -203,6 +217,7 @@ class AllCountriesFragment : DaggerFragment(), MVIView<AllCountriesIntent, AllCo
         super.onCreateOptionsMenu(menu, inflater)
     }
 
+
     override fun onDestroy() {
         super.onDestroy()
         disposables.dispose()
@@ -216,6 +231,17 @@ class AllCountriesFragment : DaggerFragment(), MVIView<AllCountriesIntent, AllCo
             searchIntents(),
             closeSearchIntent()
         )
+    }
+
+
+    companion object {
+        fun newInstance(): AllCountriesFragment {
+            val fragment = AllCountriesFragment()
+            fragment.apply {
+
+            }
+            return fragment
+        }
     }
 
 }

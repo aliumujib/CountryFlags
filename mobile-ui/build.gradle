@@ -82,6 +82,8 @@ dependencies {
             appDependencies.glide,
             appDependencies.androidsvg,
             appDependencies.rxbindingAppcompat,
+            appDependencies.navFragment,
+            appDependencies.navigationUI,
             project(':domain'),
             project(':presentation'),
             project(':data'),
@@ -89,9 +91,7 @@ dependencies {
             project(':remote')
     )
 
-    implementation 'android.arch.navigation:navigation-fragment:1.0.0'
-    implementation 'android.arch.navigation:navigation-ui:1.0.0'
-    implementation 'android.arch.navigation:navigation-ui-ktx:1.0.0'
+
 
     kapt appDependencies.daggerCompiler
     kapt appDependencies.daggerAndroidCompiler
