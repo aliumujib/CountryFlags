@@ -130,7 +130,7 @@ class AllCountriesFragment : DaggerFragment(), MVIView<AllCountriesIntent, AllCo
             )
         }
 
-        disposables.addAll(rvAdapter.itemClickPublisher.subscribe(::openCountryDetails, ::navError))
+        disposables.addAll(rvAdapter.countryClicks().subscribe(::openCountryDetails, ::navError))
 
     }
 

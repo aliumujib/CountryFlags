@@ -19,4 +19,5 @@ abstract class UIModule {
     @ContributesAndroidInjector(modules = [AllCountriesActivityModule::class, AllCountriesFragmentProvider::class])
     abstract fun contributesMainActivity(): AllCountriesActivity
 
+
 }

@@ -23,8 +23,6 @@ class AllCountriesActivity : AppCompatActivity(), HasSupportFragmentInjector {
         return fragmentInjector
     }
 
-
-
     @Inject
     lateinit var navigator: Navigator
 
@@ -43,12 +41,6 @@ class AllCountriesActivity : AppCompatActivity(), HasSupportFragmentInjector {
         navigator.goBack()
         return true
     }
-
-    override fun onBackPressed() {
-        super.onBackPressed()
-        navigator.setupActionBar()
-    }
-
 
 
 }

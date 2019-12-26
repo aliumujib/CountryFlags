@@ -1,5 +1,6 @@
 package com.aliumujib.countryflags.navigator
 
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
@@ -28,7 +29,7 @@ class NavigatorImpl @Inject constructor(
 
     override fun goToDetailScreen(countryModel: CountryModel) {
         val ft: FragmentTransaction = fragmentManager.beginTransaction()
-        ft.add(
+        ft.replace(
             R.id.mainHostFragment,
             CountryDetailsFragment.newInstance(countryModel)
         ).addToBackStack("CountryDetailsFragment")
@@ -52,7 +53,6 @@ class NavigatorImpl @Inject constructor(
 
     override fun goBack() {
         fragmentManager.popBackStack()
-        setupActionBar()
     }
 
 }

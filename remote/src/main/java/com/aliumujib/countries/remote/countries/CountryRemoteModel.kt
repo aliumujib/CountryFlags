@@ -17,6 +17,6 @@ data class CountryRemoteModel(
     val nativeName: String?,
     val numericCode: String?,
     val population: Int?,
-    val region: String,
-    val subregion: String
+    val region: String?,
+    val subregion: String?
 )

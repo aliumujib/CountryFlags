@@ -13,15 +13,15 @@ import com.aliumujib.countryflags.R
 import com.aliumujib.countryflags.models.CountryModel
 import com.aliumujib.countryflags.models.HeaderModel
 import com.aliumujib.countryflags.ui.utils.imageloader.ImageLoader
+import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject
-import java.util.*
+import java.util.Collections.sort
 import javax.inject.Inject
-import kotlin.Comparator
 
 
 class AllCountriesAdapter @Inject constructor(
     private val imageLoader: ImageLoader,
-    val itemClickPublisher: PublishSubject<CountryModel>
+    private val itemClickPublisher: PublishSubject<CountryModel>
 ) : Adapter<ViewHolder>() {
 
     private var modelList: MutableList<AllCountriesAdapterBindable> = mutableListOf()
@@ -41,9 +41,13 @@ class AllCountriesAdapter @Inject constructor(
                 parent,
                 false
             )
+            , imageLoader, itemClickPublisher
         )
     }
 
+    fun countryClicks(): Observable<CountryModel> {
+        return itemClickPublisher.take(1)
+    }
 
     /**
      * I could have done this using a hashmap to store characters and header positions and not need to created a more complex multi-typed list
@@ -52,10 +56,10 @@ class AllCountriesAdapter @Inject constructor(
 
     private fun sectionCountries(countryList: List<CountryModel>): MutableList<AllCountriesAdapterBindable> {
         val countries = mutableListOf<AllCountriesAdapterBindable>()
-        Collections.sort(countryList, Comparator<CountryModel> { user1, user2 ->
+        sort(countryList) { user1, user2 ->
             user1.name[0].toUpperCase()
                 .compareTo(user2.name[0])
-        })
+        }
         var lastHeader: String? = ""
         val size: Int = countryList.size
         for (i in 0 until size) {
@@ -83,20 +87,13 @@ class AllCountriesAdapter @Inject constructor(
         if (getItemViewType(position) == SECTION_VIEW) {
             val sectionHeaderViewHolder =
                 holder as SectionHeaderViewHolder
-            val sectionItem: HeaderModel = modelList[position] as HeaderModel
-            sectionHeaderViewHolder.headerTitleTextview.text = sectionItem.headerCharacter
-            return
+            val headerModel: HeaderModel = modelList[position] as HeaderModel
+            sectionHeaderViewHolder.bind(headerModel)
         } else {
             val itemViewHolder =
                 holder as ItemViewHolder
             val countryModel: CountryModel = modelList[position] as CountryModel
-            itemViewHolder.nameTextView.text = countryModel.name
-            imageLoader.loadImage(countryModel.flag, itemViewHolder.countryFlag)
-            (itemViewHolder.itemView as ViewGroup).forEach { child ->
-                child.setOnClickListener {
-                    itemClickPublisher.onNext(countryModel)
-                }
-            }
+            itemViewHolder.bind(countryModel)
         }
     }
 
@@ -109,16 +106,34 @@ class AllCountriesAdapter @Inject constructor(
         notifyDataSetChanged()
     }
 
-    class ItemViewHolder(itemView: View) : ViewHolder(itemView) {
-        val nameTextView: TextView = itemView.findViewById<View>(R.id.country_name) as TextView
-        val countryFlag: ImageView = itemView.findViewById<View>(R.id.country_logo) as ImageView
+    class ItemViewHolder(
+        itemView: View,
+        private val imageLoader: ImageLoader,
+        private val itemClickPublisher: PublishSubject<CountryModel>
+    ) : ViewHolder(itemView) {
+        private val nameTextView: TextView =
+            itemView.findViewById<View>(R.id.country_name) as TextView
+        private val countryFlag: ImageView =
+            itemView.findViewById<View>(R.id.country_logo) as ImageView
 
+        fun bind(countryModel: CountryModel) {
+            (itemView as ViewGroup).forEach { child ->
+                child.setOnClickListener {
+                    itemClickPublisher.onNext(countryModel)
+                }
+            }
+            nameTextView.text = countryModel.name
+            imageLoader.loadImage(countryModel.flag, countryFlag)
+        }
     }
 
-    inner class SectionHeaderViewHolder(itemView: View) : ViewHolder(itemView) {
-        internal val headerTitleTextview: TextView =
+    class SectionHeaderViewHolder(itemView: View) : ViewHolder(itemView) {
+        private val headerTitleTextview: TextView =
             itemView.findViewById<View>(R.id.header_title) as TextView
 
+        fun bind(headerModel: HeaderModel) {
+            headerTitleTextview.text = headerModel.headerCharacter
+        }
     }
 
     companion object {

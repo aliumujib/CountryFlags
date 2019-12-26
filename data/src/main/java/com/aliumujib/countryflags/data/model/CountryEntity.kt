@@ -15,5 +15,7 @@ data class CountryEntity(
     val name: String,
     val nativeName: String,
     val numericCode: String,
-    val population: Int
+    val population: Int,
+    val region: String,
+    val subregion: String
 )

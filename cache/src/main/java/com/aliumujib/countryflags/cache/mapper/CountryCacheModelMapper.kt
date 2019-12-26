@@ -30,7 +30,9 @@ class CountryCacheModelMapper @Inject constructor(
             entity.name,
             entity.nativeName,
             entity.numericCode,
-            entity.population
+            entity.population,
+            entity.region,
+            entity.subregion
         )
     }
 
@@ -54,7 +56,9 @@ class CountryCacheModelMapper @Inject constructor(
             domain.name,
             domain.nativeName,
             domain.numericCode,
-            domain.population
+            domain.population,
+            domain.region,
+            domain.subregion
         )
     }
 

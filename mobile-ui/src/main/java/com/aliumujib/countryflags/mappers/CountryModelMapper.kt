@@ -30,7 +30,9 @@ open class CountryModelMapper @Inject constructor(
             presentation.name,
             presentation.nativeName,
             presentation.numericCode,
-            presentation.population
+            presentation.population,
+            presentation.region,
+            presentation.subregion
         )
     }
 
@@ -54,7 +56,9 @@ open class CountryModelMapper @Inject constructor(
             view.name,
             view.nativeName,
             view.numericCode,
-            view.population
+            view.population,
+            view.region,
+            view.subregion
         )
     }
 

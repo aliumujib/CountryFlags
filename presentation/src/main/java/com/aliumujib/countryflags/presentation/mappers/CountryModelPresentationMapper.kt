@@ -30,31 +30,35 @@ open class CountryModelPresentationMapper @Inject constructor(
             domain.name,
             domain.nativeName,
             domain.numericCode,
-            domain.population
+            domain.population,
+            domain.region,
+            domain.subregion
         )
     }
 
-    override fun mapToDomain(view: CountryPresentationModel): Country {
+    override fun mapToDomain(presentation: CountryPresentationModel): Country {
         return Country(
-            view.alpha2Code,
-            view.alpha3Code,
-            view.area,
-            view.callingCodes,
-            view.capital,
-            view.cioc,
-            view.currencies.map {
+            presentation.alpha2Code,
+            presentation.alpha3Code,
+            presentation.area,
+            presentation.callingCodes,
+            presentation.capital,
+            presentation.cioc,
+            presentation.currencies.map {
                 currencyModelMapper.mapToDomain(it)
             },
-            view.demonym,
-            view.flag,
-            view.languages.map {
+            presentation.demonym,
+            presentation.flag,
+            presentation.languages.map {
                 languageModelPresentationMapper.mapToDomain(it)
             },
-            view.latlng,
-            view.name,
-            view.nativeName,
-            view.numericCode,
-            view.population
+            presentation.latlng,
+            presentation.name,
+            presentation.nativeName,
+            presentation.numericCode,
+            presentation.population,
+            presentation.region,
+            presentation.subregion
         )
     }
 
