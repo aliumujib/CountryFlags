@@ -54,6 +54,14 @@ object CacheDataFactory {
         return randomBuild()
     }
 
+    fun makeCountryCacheModelList(count: Int): List<CountryCacheModel> {
+        val articles = mutableListOf<CountryCacheModel>()
+        repeat(count) {
+            articles.add(makeCountryCacheModel())
+        }
+        return articles
+    }
+
     fun makeCountryEntityList(count: Int): List<CountryEntity> {
         val articles = mutableListOf<CountryEntity>()
         repeat(count) {

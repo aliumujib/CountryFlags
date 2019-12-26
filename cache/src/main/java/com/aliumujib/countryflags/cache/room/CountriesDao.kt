@@ -10,11 +10,11 @@ import io.reactivex.Single
 interface CountriesDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(user: CountryCacheModel)
+    fun insert(country: CountryCacheModel)
 
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun save(user: List<CountryCacheModel>)
+    fun save(countries: List<CountryCacheModel>)
 
 
     @Query("DELETE FROM COUNTRIES")
