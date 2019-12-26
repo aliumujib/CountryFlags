@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.view.forEach
 import androidx.recyclerview.widget.RecyclerView.Adapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.aliumujib.countryflags.R
@@ -13,7 +14,6 @@ import com.aliumujib.countryflags.models.CountryModel
 import com.aliumujib.countryflags.models.HeaderModel
 import com.aliumujib.countryflags.ui.utils.imageloader.ImageLoader
 import io.reactivex.subjects.PublishSubject
-import org.jetbrains.anko.childrenRecursiveSequence
 import java.util.*
 import javax.inject.Inject
 import kotlin.Comparator
@@ -92,7 +92,7 @@ class AllCountriesAdapter @Inject constructor(
             val countryModel: CountryModel = modelList[position] as CountryModel
             itemViewHolder.nameTextView.text = countryModel.name
             imageLoader.loadImage(countryModel.flag, itemViewHolder.countryFlag)
-            itemViewHolder.itemView.childrenRecursiveSequence().forEach { child ->
+            (itemViewHolder.itemView as ViewGroup).forEach { child ->
                 child.setOnClickListener {
                     itemClickPublisher.onNext(countryModel)
                 }

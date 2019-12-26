@@ -1,16 +1,12 @@
 package com.aliumujib.countryflags.navigator
 
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
-import androidx.navigation.ui.NavigationUI
 import com.aliumujib.countryflags.R
 import com.aliumujib.countryflags.models.CountryModel
 import com.aliumujib.countryflags.ui.allcountries.AllCountriesFragment
 import com.aliumujib.countryflags.ui.countrydetail.CountryDetailsFragment
-import com.aliumujib.countryflags.ui.utils.ext.delay
-import java.util.*
 import javax.inject.Inject
 
 class NavigatorImpl @Inject constructor(

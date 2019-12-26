@@ -7,14 +7,11 @@ import android.view.*
 import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.ViewModelProviders
-import androidx.navigation.NavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.aliumujib.countryflags.R
-import com.aliumujib.countryflags.domain.usecases.countries.SearchCountries
 import com.aliumujib.countryflags.mappers.CountryModelMapper
 import com.aliumujib.countryflags.models.CountryModel
 import com.aliumujib.countryflags.navigator.Navigator
-import com.aliumujib.countryflags.presentation.allcountries.AllCountriesAction
 import com.aliumujib.countryflags.presentation.allcountries.AllCountriesIntent
 import com.aliumujib.countryflags.presentation.allcountries.AllCountriesViewModel
 import com.aliumujib.countryflags.presentation.allcountries.AllCountriesViewState
@@ -22,7 +19,7 @@ import com.aliumujib.countryflags.presentation.mvibase.MVIView
 import com.aliumujib.countryflags.ui.adapters.allcountries.AllCountriesAdapter
 import com.aliumujib.countryflags.ui.inject.ViewModelFactory
 import com.aliumujib.countryflags.ui.utils.ext.dpToPx
-import com.aliumujib.countryflags.ui.utils.ext.findNavController
+import com.aliumujib.countryflags.ui.utils.ext.removeAllDecorations
 import com.aliumujib.countryflags.ui.utils.ext.visible
 import com.aliumujib.countryflags.ui.utils.views.DividerItemDecoration
 import com.aliumujib.countryflags.ui.utils.views.SpacingItemDecoration
@@ -117,6 +114,7 @@ class AllCountriesFragment : DaggerFragment(), MVIView<AllCountriesIntent, AllCo
         recycler_view.apply {
             adapter = rvAdapter
             layoutManager = LinearLayoutManager(context)
+            removeAllDecorations()
             addItemDecoration(
                 DividerItemDecoration(
                     context

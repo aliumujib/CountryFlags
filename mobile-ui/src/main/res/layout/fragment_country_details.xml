@@ -6,10 +6,10 @@
         android:layout_height="match_parent"
         tools:context=".ui.countrydetail.CountryDetailsFragment">
 
-    <!-- TODO: Update blank fragment layout -->
     <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:id="@+id/country_name"
             android:text="@string/hello_blank_fragment" />
 
 </FrameLayout>

@@ -48,7 +48,6 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     def appDependencies = rootProject.ext.appDependencies
     def testDependencies = rootProject.ext.testDependencies
 
@@ -59,22 +58,12 @@ dependencies {
             appDependencies.rxJava,
             appDependencies.rxAndroid,
             appDependencies.design,
-            appDependencies.leakCanary,
             appDependencies.cardView,
             appDependencies.constraintLayout,
-            appDependencies.picassoImageLoader,
-            appDependencies.multiDex,
-            appDependencies.ankoSDK25,
-            appDependencies.ankoSDK25Coroutines,
             appDependencies.materialDesignSpecs,
             appDependencies.jodaTime,
             appDependencies.lifeCycleExtensions,
-            appDependencies.picassoTransformations,
-            appDependencies.circleImageView,
-            appDependencies.stetho,
-            appDependencies.rxBindingPlatform,
             appDependencies.timber,
-            appDependencies.javaxAnnotation,
             appDependencies.javaxAnnotation,
             appDependencies.roomDB,
             appDependencies.rxBinding,
@@ -82,8 +71,7 @@ dependencies {
             appDependencies.glide,
             appDependencies.androidsvg,
             appDependencies.rxbindingAppcompat,
-            appDependencies.navFragment,
-            appDependencies.navigationUI,
+            appDependencies.coreKtx,
             project(':domain'),
             project(':presentation'),
             project(':data'),
