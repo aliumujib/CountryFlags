@@ -64,7 +64,7 @@ class AllCountriesViewModel @Inject constructor(
     companion object {
 
         private val reducer =
-            BiFunction { previousState: AllCountriesViewState, result: AllCountriesResult ->
+            BiFunction { _: AllCountriesViewState, result: AllCountriesResult ->
                 when (result) {
                     is LoadAllCountriesResults -> {
                         when (result) {
