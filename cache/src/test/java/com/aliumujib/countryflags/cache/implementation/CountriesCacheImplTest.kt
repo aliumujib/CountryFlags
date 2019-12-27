@@ -27,9 +27,6 @@ class CountriesCacheImplTest {
 
     private lateinit var countriesCache: ICountriesCache
 
-    @Mock
-    lateinit var iCountriesCache: ICountriesCache
-
     @get:Rule
     var instantTaskExecutorRule = InstantTaskExecutorRule()
 
@@ -68,8 +65,6 @@ class CountriesCacheImplTest {
 
     @Test
     fun `check that calling fetchCountries on cache completes`() {
-        val data = CacheDataFactory.makeCountryEntityList(10)
-        stubGetCountriesCacheResponse(data)
         val testObserver = countriesCache.fetchCountries().test()
         testObserver.assertComplete()
     }
@@ -77,7 +72,7 @@ class CountriesCacheImplTest {
     private fun stubGetCountriesCacheResponse(
         countries: List<CountryEntity>
     ) {
-        whenever(iCountriesCache.fetchCountries())
+        whenever(countriesCache.fetchCountries())
             .thenReturn(Maybe.just(countries))
     }
 
