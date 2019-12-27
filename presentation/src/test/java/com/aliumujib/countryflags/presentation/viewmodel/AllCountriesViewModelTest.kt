@@ -12,7 +12,6 @@ import com.aliumujib.countryflags.presentation.mappers.CountryModelPresentationM
 import com.aliumujib.countryflags.presentation.models.CountryPresentationModel
 import com.nhaarman.mockito_kotlin.anyOrNull
 import com.nhaarman.mockito_kotlin.whenever
-import io.reactivex.Flowable
 import io.reactivex.Maybe
 import io.reactivex.Observable
 import org.junit.Before
@@ -89,8 +88,7 @@ class AllCountriesViewModelTest {
         testObserver.assertValueAt(2) { it is AllCountriesViewState.Error }
     }
 
-    private fun stubCountryMapperMapToView(countryPresentationModel: CountryPresentationModel,
-                                           country: Country) {
+    private fun stubCountryMapperMapToView(countryPresentationModel: CountryPresentationModel, country: Country) {
         whenever(countryModelPresentationMapper.mapToPresentation(country))
             .thenReturn(countryPresentationModel)
     }

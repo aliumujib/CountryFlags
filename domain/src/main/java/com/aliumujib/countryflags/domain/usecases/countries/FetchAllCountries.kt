@@ -7,18 +7,17 @@ import com.aliumujib.countryflags.domain.models.Country
 import com.aliumujib.countryflags.domain.repositories.countries.ICountriesRepository
 import com.aliumujib.countryflags.domain.usecases.base.MaybeUseCase
 import io.reactivex.Maybe
-import io.reactivex.Single
 import javax.inject.Inject
 
 open class FetchAllCountries @Inject constructor(
-    private val characterRepository: ICountriesRepository,
+    private val countriesRepository: ICountriesRepository,
     threadExecutor: ThreadExecutor,
     postExecutionThread: PostExecutionThread
 ) : MaybeUseCase<List<Country>, FetchAllCountries.Params>(threadExecutor, postExecutionThread) {
 
     public override fun buildUseCaseMaybe(params: Params?): Maybe<List<Country>> {
         return params?.let {
-            characterRepository.fetchCountries(params.isConnected)
+            countriesRepository.fetchCountries(params.isConnected)
         } ?: throw IllegalArgumentException("Parameters cannot be null")
     }
 

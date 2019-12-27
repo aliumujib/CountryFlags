@@ -132,6 +132,8 @@ ext {
             archTesting          : "android.arch.core:core-testing:${roomVersion}",
             roomTesting          : "android.arch.persistence.room:testing:${roomVersion}",
             fragmentTesting      : 'androidx.fragment:fragment-testing:1.1.0',
-            lifeCylcleRuntime    : 'androidx.lifecycle:lifecycle-runtime:2.1.0'
+            lifeCylcleRuntime    : 'androidx.lifecycle:lifecycle-runtime:2.1.0',
+            testCore             : "androidx.test:core:1.2.0",
+            testExtJunit: 'androidx.test.ext:junit:1.0.0'
     ]
 }
