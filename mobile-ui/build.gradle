@@ -14,7 +14,7 @@ android {
         versionCode rootProject.ext.versionCode
         versionName rootProject.ext.versionName
         multiDexEnabled true
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "com.aliumujib.countryflags.runner.TestRunner"
     }
 
     compileOptions {
@@ -43,6 +43,7 @@ android {
         enabled = true
     }
 }
+
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
@@ -80,7 +81,6 @@ dependencies {
     )
 
 
-
     kapt appDependencies.daggerCompiler
     kapt appDependencies.daggerAndroidCompiler
     kapt appDependencies.glideCompiler
@@ -113,9 +113,7 @@ dependencies {
     androidTestImplementation(testDependencies.androidRules) {
         exclude group: 'com.android.support', module: 'support-annotations'
     }
-    androidTestImplementation(testDependencies.espressoIntents) {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    }
+
     androidTestImplementation(testDependencies.espressoContrib) {
         exclude module: 'appcompat'
         exclude module: 'appcompat-v7'
@@ -128,12 +126,5 @@ dependencies {
 
     kaptTest testDependencies.daggerCompiler
     kaptAndroidTest testDependencies.daggerCompiler
-
-    androidTestImplementation(testDependencies.espressoContrib) {
-        exclude module: "support-annotations"
-        exclude module: "support-v4"
-        exclude module: "design"
-        exclude module: "recyclerview-v7"
-    }
 
 }
