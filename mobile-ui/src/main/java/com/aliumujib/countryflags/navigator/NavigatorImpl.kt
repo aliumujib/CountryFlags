@@ -1,6 +1,5 @@
 package com.aliumujib.countryflags.navigator
 
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
@@ -24,12 +23,12 @@ class NavigatorImpl @Inject constructor(
 
     override fun showCountryList() {
         val fragment: Fragment =
-            findFragmentByTag("AllCountriesFragmentTag", AllCountriesFragment.newInstance())
+            findFragmentByTag(AllCountriesFragment.TAG, AllCountriesFragment.newInstance())
         val ft: FragmentTransaction = fragmentManager.beginTransaction()
         ft.replace(
             R.id.mainHostFragment,
             fragment,
-            "AllCountriesFragmentTag"
+            AllCountriesFragment.TAG
         ).commit()
     }
 
@@ -43,15 +42,15 @@ class NavigatorImpl @Inject constructor(
 
     override fun goToDetailScreen(countryModel: CountryModel) {
         val fragment = findFragmentByTag(
-            "CountryDetailsFragmentTag",
+            CountryDetailsFragment.TAG,
             CountryDetailsFragment.newInstance(countryModel)
         )
         val ft: FragmentTransaction = fragmentManager.beginTransaction()
         ft.replace(
             R.id.mainHostFragment,
             fragment,
-            "CountryDetailsFragmentTag"
-        ).addToBackStack("CountryDetailsFragment")
+            CountryDetailsFragment.TAG
+        ).addToBackStack(CountryDetailsFragment::class.java.simpleName)
             .commit()
     }
 
@@ -59,12 +58,12 @@ class NavigatorImpl @Inject constructor(
     override fun setupActionBar() {
         if (fragmentManager.backStackEntryCount <= 0) {
             activity.supportActionBar?.apply {
-                this.setDisplayHomeAsUpEnabled(false);
+                this.setDisplayHomeAsUpEnabled(false)
                 this.setHomeAsUpIndicator(null)
             }
         } else {
             activity.supportActionBar?.apply {
-                this.setDisplayHomeAsUpEnabled(true);
+                this.setDisplayHomeAsUpEnabled(true)
                 this.setHomeAsUpIndicator(R.drawable.ic_arrow_back_24)
             }
         }
