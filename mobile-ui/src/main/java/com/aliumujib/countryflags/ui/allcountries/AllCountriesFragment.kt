@@ -233,6 +233,8 @@ class AllCountriesFragment : DaggerFragment(), MVIView<AllCountriesIntent, AllCo
 
 
     companion object {
+        const val TAG = "AllCountriesFragmentTag"
+
         fun newInstance(): AllCountriesFragment {
             val fragment = AllCountriesFragment()
             fragment.apply {

@@ -1,23 +1,23 @@
-package com.aliumujib.countryflags.ui.inject.module.data
+package com.aliumujib.countryflags.injection.data
 
 import android.content.Context
 import androidx.room.Room
-import com.aliumujib.countryflags.cache.implementation.CountriesCacheImpl
-import com.aliumujib.countryflags.cache.room.CountriesDao
 import com.aliumujib.countryflags.cache.room.CountriesDB
+import com.aliumujib.countryflags.cache.room.CountriesDao
 import com.aliumujib.countryflags.data.contracts.ICountriesCache
+import com.nhaarman.mockito_kotlin.mock
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
 
 
 @Module
- class CacheModule {
+ class TestCacheModule {
 
     @Provides
     @Singleton
-    fun providesCountriesCache(repo: CountriesCacheImpl): ICountriesCache {
-        return repo
+    fun providesCountriesCache(): ICountriesCache {
+        return mock()
     }
 
     @Provides

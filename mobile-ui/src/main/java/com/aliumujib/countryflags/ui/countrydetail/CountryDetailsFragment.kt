@@ -1,12 +1,9 @@
 package com.aliumujib.countryflags.ui.countrydetail
 
 import android.os.Bundle
-import android.os.Parcelable
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-
 import com.aliumujib.countryflags.R
 import com.aliumujib.countryflags.models.CountryModel
 import com.aliumujib.countryflags.ui.utils.imageloader.ImageLoader
@@ -59,6 +56,7 @@ class CountryDetailsFragment : DaggerFragment() {
 
     companion object {
         private const val COUNTRY = "COUNTRY"
+        const val TAG = "CountryDetailsFragmentTag"
 
         fun newInstance(countryModel: CountryModel): CountryDetailsFragment {
             val fragment = CountryDetailsFragment()

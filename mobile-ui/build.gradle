@@ -42,6 +42,10 @@ android {
     dataBinding {
         enabled = true
     }
+
+    packagingOptions {
+        pickFirst 'mockito-extensions/org.mockito.plugins.MockMaker'
+    }
 }
 
 
@@ -88,21 +92,15 @@ dependencies {
 
     testImplementation(
             testDependencies.junit,
-            testDependencies.assertj,
-            testDependencies.mockito,
-            testDependencies.mockitoKotlin,
-            testDependencies.mockWebServer,
             testDependencies.leakCanaryNoOp,
-            testDependencies.robolectric,
-            testDependencies.archTesting,
             testDependencies.konveyor,
+            testDependencies.kotlinRunnerJUnit,
+            testDependencies.kotlinJUnit,
             testDependencies.kotlinRunnerJUnit
     )
 
-
     // Instrumentation test dependencies
     androidTestImplementation testDependencies.junit
-    androidTestImplementation testDependencies.mockito
     androidTestImplementation testDependencies.mockitoAndroid
     androidTestImplementation(testDependencies.espressoCore) {
         exclude group: 'com.android.support', module: 'support-annotations'
@@ -113,6 +111,10 @@ dependencies {
     androidTestImplementation(testDependencies.androidRules) {
         exclude group: 'com.android.support', module: 'support-annotations'
     }
+    androidTestImplementation(testDependencies.testCore)
+    androidTestImplementation(testDependencies.mockitoKotlin)
+    androidTestImplementation(testDependencies.konveyor)
+    androidTestImplementation(testDependencies.testExtJunit)
 
     androidTestImplementation(testDependencies.espressoContrib) {
         exclude module: 'appcompat'

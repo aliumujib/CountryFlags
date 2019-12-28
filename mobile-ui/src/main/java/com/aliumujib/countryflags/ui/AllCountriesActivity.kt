@@ -33,7 +33,12 @@ class AllCountriesActivity : AppCompatActivity(), HasSupportFragmentInjector {
         setContentView(R.layout.activity_main)
 
         setSupportActionBar(toolbar)
-        navigator.showCountryList()
+
+        if (savedInstanceState == null) {
+            navigator.showCountryList()
+        } else {
+            navigator.setupActionBar()
+        }
 
     }
 
