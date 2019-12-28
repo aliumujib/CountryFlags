@@ -42,6 +42,10 @@ android {
     dataBinding {
         enabled = true
     }
+
+    packagingOptions {
+        pickFirst 'mockito-extensions/org.mockito.plugins.MockMaker'
+    }
 }
 
 
@@ -94,7 +98,6 @@ dependencies {
             testDependencies.kotlinJUnit,
             testDependencies.kotlinRunnerJUnit
     )
-
 
     // Instrumentation test dependencies
     androidTestImplementation testDependencies.junit
