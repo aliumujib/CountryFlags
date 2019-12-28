@@ -33,3 +33,8 @@ I had a lot of fun building this. There are some improvements I intend to make.
 - Use MockWebServer to test `Remote` layer API calls.</br>
 - Improve UI and add a bookmarking feature (just because I can 🙂).</br>
 - Write more Unit tests.
+
+
+### Build Instructions
+- Clone repository.</br>
+- Run with Android Studio 4.0 canary 3 and above. </br>
