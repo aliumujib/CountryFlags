@@ -5,7 +5,6 @@ import android.content.Context
 import android.os.Bundle
 import androidx.test.runner.AndroidJUnitRunner
 import com.aliumujib.countryflags.TestApplicationClass
-import io.reactivex.android.plugins.RxAndroidPlugins
 import io.reactivex.plugins.RxJavaPlugins
 import io.reactivex.schedulers.Schedulers
 
@@ -18,7 +17,6 @@ class TestRunner : AndroidJUnitRunner() {
         RxJavaPlugins.setIoSchedulerHandler { Schedulers.trampoline() }
         RxJavaPlugins.setComputationSchedulerHandler { Schedulers.trampoline() }
         RxJavaPlugins.setNewThreadSchedulerHandler { Schedulers.trampoline() }
-        RxAndroidPlugins.setInitMainThreadSchedulerHandler { Schedulers.trampoline() }
     }
 
     @Throws(InstantiationException::class, IllegalAccessException::class, ClassNotFoundException::class)

@@ -9,7 +9,6 @@ import com.aliumujib.countryflags.models.CountryModel
 import com.aliumujib.countryflags.ui.utils.imageloader.ImageLoader
 import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.fragment_country_details.*
-import java.text.DecimalFormat
 import javax.inject.Inject
 
 class CountryDetailsFragment : DaggerFragment() {
@@ -43,7 +42,7 @@ class CountryDetailsFragment : DaggerFragment() {
             R.string.country_desc_format,
             country.name,
             country.subregion,
-            DecimalFormat("#,###,###").format(country.population),
+            country.populationFormatted,
             country.capital
         )
         calling_codes.setText(

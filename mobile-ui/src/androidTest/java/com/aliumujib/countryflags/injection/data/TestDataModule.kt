@@ -6,13 +6,15 @@ import com.aliumujib.countryflags.domain.repositories.countries.ICountriesReposi
 import com.nhaarman.mockito_kotlin.mock
 import dagger.Module
 import dagger.Provides
+import javax.inject.Singleton
 
 
 @Module
  class TestDataModule {
 
+    @Singleton
     @Provides
-     fun providesCountriesRepository(): ICountriesRepository{
+    fun providesCountriesRepository(): ICountriesRepository {
         return mock()
     }
 

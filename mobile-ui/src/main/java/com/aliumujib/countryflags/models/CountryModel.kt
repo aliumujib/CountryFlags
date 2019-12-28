@@ -2,7 +2,9 @@ package com.aliumujib.countryflags.models
 
 import android.os.Parcelable
 import com.aliumujib.countryflags.ui.adapters.allcountries.AllCountriesAdapterBindable
+import kotlinx.android.parcel.IgnoredOnParcel
 import kotlinx.android.parcel.Parcelize
+import java.text.DecimalFormat
 
 @Parcelize
 data class CountryModel(
@@ -23,4 +25,7 @@ data class CountryModel(
     val population: Int,
     val region: String,
     val subregion: String
-) : AllCountriesAdapterBindable, Parcelable
+) : AllCountriesAdapterBindable, Parcelable {
+    @IgnoredOnParcel
+    val populationFormatted: String = DecimalFormat("#,###,###").format(population)
+}
