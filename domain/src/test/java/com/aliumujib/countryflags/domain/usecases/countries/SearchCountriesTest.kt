@@ -6,8 +6,11 @@ import com.aliumujib.countryflags.domain.models.Country
 import com.aliumujib.countryflags.domain.repositories.countries.ICountriesRepository
 import com.aliumujib.countryflags.domain.test.CountriesDataFactory
 import com.aliumujib.countryflags.domain.util.TestPostExecutionThread
-import com.nhaarman.mockito_kotlin.*
+import com.nhaarman.mockito_kotlin.atMost
+import com.nhaarman.mockito_kotlin.verify
+import com.nhaarman.mockito_kotlin.whenever
 import io.reactivex.Maybe
+import konveyor.base.randomBuild
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -68,9 +71,10 @@ class SearchCountriesTest {
 
     @Test
     fun `confirm that calling searchCountries completes`() {
-        stubSearchCountries("anything", CountriesDataFactory.makeCountryList(10))
+        val query = randomBuild<String>()
+        stubSearchCountries(query, CountriesDataFactory.makeCountryList(10))
         val testObserver =
-            searchCountries.buildUseCaseMaybe(SearchCountries.Params("anything")).test()
+            searchCountries.buildUseCaseMaybe(SearchCountries.Params(query)).test()
         testObserver.assertComplete()
     }
 

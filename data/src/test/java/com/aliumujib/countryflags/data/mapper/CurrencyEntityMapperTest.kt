@@ -14,7 +14,7 @@ import kotlin.test.assertEquals
 class CurrencyEntityMapperTest {
 
 
-    var currencyEntityMapper: CurrencyEntityMapper = CurrencyEntityMapper()
+    private var currencyEntityMapper: CurrencyEntityMapper = CurrencyEntityMapper()
 
     @Before
     fun setup() {

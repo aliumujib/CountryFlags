@@ -5,7 +5,7 @@ import com.aliumujib.countryflags.data.model.CountryEntity
 import com.aliumujib.countryflags.domain.models.Country
 import javax.inject.Inject
 
-class CountryEntityMapper @Inject constructor(
+open class CountryEntityMapper @Inject constructor(
     private val currencyEntityMapper: CurrencyEntityMapper,
     private val languageEntityMapper: LanguageEntityMapper
 ) : EntityMapper<CountryEntity, Country>() {

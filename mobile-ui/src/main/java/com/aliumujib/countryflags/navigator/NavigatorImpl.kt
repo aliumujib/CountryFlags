@@ -1,5 +1,6 @@
 package com.aliumujib.countryflags.navigator
 
+import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
@@ -71,6 +72,14 @@ class NavigatorImpl @Inject constructor(
 
     override fun goBack() {
         fragmentManager.popBackStack()
+    }
+
+    override fun start(savedInstanceState: Bundle?) {
+        if (savedInstanceState == null) {
+            this.showCountryList()
+        } else {
+            this.setupActionBar()
+        }
     }
 
 }
