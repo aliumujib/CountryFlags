@@ -10,12 +10,14 @@ import com.aliumujib.countries.remote.mapper.LanguageRemoteModelMapper
 import com.aliumujib.countryflags.data.contracts.ICountriesRemote
 import com.nhaarman.mockito_kotlin.whenever
 import io.reactivex.Maybe
+import konveyor.base.randomBuild
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
 import org.mockito.Mock
 import org.mockito.MockitoAnnotations
+import java.net.SocketTimeoutException
 
 @RunWith(JUnit4::class)
 class CountriesRemoteImplTest {
@@ -67,20 +69,54 @@ class CountriesRemoteImplTest {
     @Test
     fun `check that calling searchCountries on remote returns data`() {
         val data = RemoteDataFactory.makeCountryRemoteModelList(10)
-        stubSearchCountriesRemoteResponse("SDK", data)
+        val query = randomBuild<String>()
+        stubSearchCountriesRemoteResponse(query, data)
         val mappedData = data.map {
             countryMapper.mapFromModel(it)
         }
-        val testObserver = iCountriesRemote.searchCountries("SDK").test()
+        val testObserver = iCountriesRemote.searchCountries(query).test()
         testObserver.assertValue(mappedData)
     }
 
     @Test
     fun `check that calling searchCountries on remote completes`() {
+        val query = randomBuild<String>()
         val data = RemoteDataFactory.makeCountryRemoteModelList(10)
-        stubSearchCountriesRemoteResponse("SDK", data)
-        val testObserver = iCountriesRemote.searchCountries("SDK").test()
+        stubSearchCountriesRemoteResponse(query, data)
+        val testObserver = iCountriesRemote.searchCountries(query).test()
         testObserver.assertComplete()
+    }
+
+    @Test
+    fun `check that calling searchCountries on remote errors when there's an error from the API call`() {
+        val query = randomBuild<String>()
+        val throwable = SocketTimeoutException()
+        stubSearchCountriesRemoteError(query, throwable)
+        val testObserver = iCountriesRemote.searchCountries(query).test()
+        testObserver.assertError(throwable)
+    }
+
+    @Test
+    fun `check that calling fetchAllCountries on remote errors when there's an error from the API call`() {
+        val throwable = SocketTimeoutException()
+        stubGetCountriesRemoteError(throwable)
+        val testObserver = iCountriesRemote.fetchAllCountries().test()
+        testObserver.assertError(throwable)
+    }
+
+    private fun stubSearchCountriesRemoteError(
+        query: String,
+        error: Throwable
+    ) {
+        whenever(countriesAPI.searchCountriesByName(query))
+            .thenReturn(Maybe.error(error))
+    }
+
+    private fun stubGetCountriesRemoteError(
+        error: Throwable
+    ) {
+        whenever(countriesAPI.fetchAllCountries())
+            .thenReturn(Maybe.error(error))
     }
 
     private fun stubSearchCountriesRemoteResponse(

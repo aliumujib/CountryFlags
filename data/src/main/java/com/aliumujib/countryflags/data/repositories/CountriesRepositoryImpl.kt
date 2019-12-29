@@ -22,7 +22,7 @@ class CountriesRepositoryImpl @Inject constructor(
                 countriesCache.saveCountries(countryEntityMapper.mapToEntityList(it))
             }
         } else {
-            countriesCache.fetchCountries().map {
+            countriesCache.fetchAllCountries().map {
                 countryEntityMapper.mapFromEntityList(it)
             }
         }

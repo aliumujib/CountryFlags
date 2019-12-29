@@ -9,9 +9,7 @@ import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.atMost
 import com.nhaarman.mockito_kotlin.verify
 import com.nhaarman.mockito_kotlin.whenever
-import io.reactivex.Flowable
 import io.reactivex.Maybe
-import io.reactivex.Single
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -46,7 +44,6 @@ class FetchAllCountriesTest {
 
     @Test(expected = IllegalArgumentException::class)
     fun `confirm that calling fetchAllCountries without params returns an error`() {
-        val country = CountriesDataFactory.makeCountry()
         val countries = CountriesDataFactory.makeCountryList(3)
         stubFetchAllCountries(countries)
         val testObserver =
@@ -64,7 +61,6 @@ class FetchAllCountriesTest {
 
     @Test
     fun `confirm that calling fetchAllCountries calls CountriesRepository fetchAllCountries() method only once`() {
-        val country = CountriesDataFactory.makeCountry()
         val countries = CountriesDataFactory.makeCountryList(3)
         stubFetchAllCountries(countries)
         fetchAllCountries.buildUseCaseMaybe(FetchAllCountries.Params(true)).test()

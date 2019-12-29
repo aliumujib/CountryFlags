@@ -13,7 +13,7 @@ import kotlin.test.assertEquals
 @RunWith(JUnit4::class)
 class LanguageEntityMapperTest {
 
-    var entityMapper: LanguageEntityMapper = LanguageEntityMapper()
+    private var entityMapper: LanguageEntityMapper = LanguageEntityMapper()
 
     @Before
     fun setup() {

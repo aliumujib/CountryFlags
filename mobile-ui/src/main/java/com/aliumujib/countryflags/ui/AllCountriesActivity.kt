@@ -31,14 +31,8 @@ class AllCountriesActivity : AppCompatActivity(), HasSupportFragmentInjector {
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
         setSupportActionBar(toolbar)
-
-        if (savedInstanceState == null) {
-            navigator.showCountryList()
-        } else {
-            navigator.setupActionBar()
-        }
+        navigator.start(savedInstanceState)
 
     }
 
