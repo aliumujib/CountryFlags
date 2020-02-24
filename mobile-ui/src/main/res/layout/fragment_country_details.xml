@@ -7,7 +7,8 @@
         android:background="@color/mds_white"
         android:clickable="true"
         android:padding="@dimen/activity_vertical_margin"
-        tools:context=".ui.countrydetail.CountryDetailsFragment">
+        tools:context=".ui.countrydetail.CountryDetailsFragment"
+        android:focusable="true">
 
     <TextView
             android:id="@+id/country_name"

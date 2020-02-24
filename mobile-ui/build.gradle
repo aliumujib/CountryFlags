@@ -3,6 +3,7 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'androidx.navigation.safeargs'
+apply plugin: 'shot'
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
@@ -24,11 +25,6 @@ android {
 
 
     buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            buildConfigField "String", "API_URL", '\"https://swapi.co/api/\"'
-        }
         debug {
             buildConfigField "String", "API_URL", '\"https://restcountries.eu/rest/v2/\"'
         }
@@ -37,7 +33,6 @@ android {
     androidExtensions {
         experimental = true
     }
-
 
     dataBinding {
         enabled = true
@@ -129,4 +124,8 @@ dependencies {
     kaptTest testDependencies.daggerCompiler
     kaptAndroidTest testDependencies.daggerCompiler
 
+}
+
+shot {
+    appId = 'com.aliumujib.countryflags'
 }
