@@ -170,9 +170,15 @@ class AllCountriesFragment : DaggerFragment(), MVIView<AllCountriesIntent, AllCo
         swipe_refresh_layout.post {
             swipe_refresh_layout.isRefreshing = false
         }
-        emptyView.visible = false
-        errorView.visible = false
-        recycler_view.visible = true
+        if(data.isNotEmpty()){
+            emptyView.visible = false
+            errorView.visible = false
+            recycler_view.visible = true
+        }else{
+            emptyView.visible = true
+            errorView.visible = false
+            recycler_view.visible = false
+        }
         rvAdapter.updateData(data)
     }
 

@@ -84,6 +84,40 @@ object UIDataFactory {
         return list
     }
 
+    fun makeNonRandomCountryList(count: Int): List<Country> {
+        val country = Country(
+            "NGN",
+            "NGN",
+            1.0,
+            listOf("+234"), "Abuja", "CIOC",
+            listOf(
+                Currency(
+                    "NGN", "Naira", "NGN"
+                )
+            ),
+            "NAIJA",
+            "naija",
+            listOf(
+                Language(
+                    "", "", "English", "English"
+                ), Language(
+                    "", "", "Yoruba", "Yoruba"
+                )
+            ), listOf(10.0, 10.0),
+            "Nigeria",
+            "Nigeria",
+            "NI",
+            1000000,
+            "NAAA",
+            "SUB-REGION"
+        )
+        val list = mutableListOf<Country>()
+        repeat(count) {
+            list.add(country)
+        }
+        return list
+    }
+
     fun makeCountryModelList(count: Int): List<CountryModel> {
         val list = mutableListOf<CountryModel>()
         repeat(count) {
