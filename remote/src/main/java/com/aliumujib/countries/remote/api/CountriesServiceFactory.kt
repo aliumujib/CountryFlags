@@ -47,7 +47,7 @@ object CountriesServiceFactory {
         logging.level = if (isDebug) {
             HttpLoggingInterceptor.Level.BASIC
         } else {
-            HttpLoggingInterceptor.Level.NONE
+            HttpLoggingInterceptor.Level.BODY
         }
         return logging
     }

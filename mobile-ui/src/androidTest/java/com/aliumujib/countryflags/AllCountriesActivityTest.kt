@@ -1,5 +1,6 @@
 package com.aliumujib.countryflags
 
+import android.util.Log
 import android.widget.AutoCompleteTextView
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
@@ -29,7 +30,7 @@ import kotlinx.android.synthetic.main.search_fragment.*
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import java.lang.Exception
+import kotlin.test.assertEquals
 
 
 @RunWith(AndroidJUnit4::class)
@@ -48,6 +49,14 @@ class AllCountriesActivityTest {
     fun activityLaunchesTest() {
         stubCountriesRepositoryGetCountries(Maybe.just(UIDataFactory.makeNonRandomCountryList(3)))
         activityTestRule.launchActivity(null)
+    }
+
+
+    @Test
+    fun makeRawAPICallFromTest() {
+        activityTestRule.launchActivity(null)
+        val data = TestApplicationClass.countriesRepository().fetchCountries(true).blockingGet()
+        assertEquals(emptyList(), data)
     }
 
     @Test
@@ -128,12 +137,12 @@ class AllCountriesActivityTest {
     }
 
     private fun stubCountriesRepositorySearchCountries(maybe: Maybe<List<Country>>) {
-        whenever(TestApplicationClass.countriesRepository().searchCountries(any()))
-            .thenReturn(maybe)
+//        whenever(TestApplicationClass.countriesRepository().searchCountries(any()))
+//            .thenReturn(maybe)
     }
 
     private fun stubCountriesRepositoryGetCountries(maybe: Maybe<List<Country>>) {
-        whenever(TestApplicationClass.countriesRepository().fetchCountries(any()))
-            .thenReturn(maybe)
+//        whenever(TestApplicationClass.countriesRepository().fetchCountries(any()))
+//            .thenReturn(maybe)
     }
 }

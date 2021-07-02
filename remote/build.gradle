@@ -14,7 +14,7 @@ dependencies {
     implementation remoteDependencies.retrofitGson
     implementation remoteDependencies.retrofitRxAdapter
     implementation remoteDependencies.okhttp3LogginInterceptor
-    implementation remoteDependencies.roomRxJava2
+    //implementation remoteDependencies.roomRxJava2
     implementation project(':data')
     implementation remoteDependencies.moshi
 
