@@ -1,6 +1,5 @@
 package com.aliumujib.countryflags
 
-import android.util.Log
 import android.widget.AutoCompleteTextView
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
@@ -12,13 +11,6 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.rule.ActivityTestRule
 import androidx.test.rule.GrantPermissionRule
 import com.aliumujib.countryflags.domain.models.Country
-import com.aliumujib.countryflags.mappers.CountryModelMapper
-import com.aliumujib.countryflags.mappers.CurrencyModelMapper
-import com.aliumujib.countryflags.mappers.LanguageModelMapper
-import com.aliumujib.countryflags.models.CountryModel
-import com.aliumujib.countryflags.presentation.mappers.CountryModelPresentationMapper
-import com.aliumujib.countryflags.presentation.mappers.CurrencyModelPresentationMapper
-import com.aliumujib.countryflags.presentation.mappers.LanguageModelPresentationMapper
 import com.aliumujib.countryflags.ui.AllCountriesActivity
 import com.aliumujib.countryflags.ui.adapters.allcountries.AllCountriesAdapter
 import com.facebook.testing.screenshot.Screenshot
@@ -49,14 +41,6 @@ class AllCountriesActivityTest {
     fun activityLaunchesTest() {
         stubCountriesRepositoryGetCountries(Maybe.just(UIDataFactory.makeNonRandomCountryList(3)))
         activityTestRule.launchActivity(null)
-    }
-
-
-    @Test
-    fun makeRawAPICallFromTest() {
-        activityTestRule.launchActivity(null)
-        val data = TestApplicationClass.countriesRepository().fetchCountries(true).blockingGet()
-        assertEquals(emptyList(), data)
     }
 
     @Test
@@ -137,12 +121,12 @@ class AllCountriesActivityTest {
     }
 
     private fun stubCountriesRepositorySearchCountries(maybe: Maybe<List<Country>>) {
-//        whenever(TestApplicationClass.countriesRepository().searchCountries(any()))
-//            .thenReturn(maybe)
+        whenever(TestApplicationClass.countriesRepository().searchCountries(any()))
+            .thenReturn(maybe)
     }
 
     private fun stubCountriesRepositoryGetCountries(maybe: Maybe<List<Country>>) {
-//        whenever(TestApplicationClass.countriesRepository().fetchCountries(any()))
-//            .thenReturn(maybe)
+        whenever(TestApplicationClass.countriesRepository().fetchCountries(any()))
+            .thenReturn(maybe)
     }
 }

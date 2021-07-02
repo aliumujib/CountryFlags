@@ -13,5 +13,4 @@ interface ICountriesRepository {
 
     fun searchCountries(query: String): Maybe<List<Country>>
 
-
 }
