@@ -1,13 +1,11 @@
 package com.aliumujib.countryflags.injection
 
-import com.aliumujib.countryflags.ApplicationClass
 import com.aliumujib.countryflags.TestApplicationClass
 import com.aliumujib.countryflags.domain.executor.PostExecutionThread
 import com.aliumujib.countryflags.domain.repositories.countries.ICountriesRepository
-import com.aliumujib.countryflags.injection.data.TestCacheModule
-import com.aliumujib.countryflags.injection.data.TestDataModule
-import com.aliumujib.countryflags.injection.data.TestRemoteModule
-import com.aliumujib.countryflags.ui.inject.module.ApplicationModule
+import com.aliumujib.countryflags.ui.inject.module.data.CacheModule
+import com.aliumujib.countryflags.ui.inject.module.data.DataModule
+import com.aliumujib.countryflags.ui.inject.module.data.RemoteModule
 import com.aliumujib.countryflags.ui.inject.module.presentation.PresentationModule
 import com.aliumujib.countryflags.ui.inject.module.ui.ImageLoaderModule
 import com.aliumujib.countryflags.ui.inject.module.ui.UIModule
@@ -23,10 +21,10 @@ import javax.inject.Singleton
         TestApplicationModule::class,
         ImageLoaderModule::class,
         PresentationModule::class,
-        TestRemoteModule::class,
+        RemoteModule::class,
         UIModule::class,
-        TestDataModule::class,
-        TestCacheModule::class]
+        DataModule::class,
+        CacheModule::class]
 )
 interface TestApplicationComponent {
 

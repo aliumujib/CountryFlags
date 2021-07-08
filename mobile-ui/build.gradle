@@ -60,7 +60,6 @@ dependencies {
             appDependencies.design,
             appDependencies.cardView,
             appDependencies.constraintLayout,
-            appDependencies.materialDesignSpecs,
             appDependencies.jodaTime,
             appDependencies.lifeCycleExtensions,
             appDependencies.timber,
@@ -95,6 +94,7 @@ dependencies {
     )
 
     // Instrumentation test dependencies
+    androidTestImplementation testDependencies.kotlinJUnit
     androidTestImplementation testDependencies.junit
     androidTestImplementation testDependencies.mockitoAndroid
     androidTestImplementation(testDependencies.espressoCore) {

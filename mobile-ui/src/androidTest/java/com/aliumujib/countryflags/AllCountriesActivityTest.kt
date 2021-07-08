@@ -11,13 +11,6 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.rule.ActivityTestRule
 import androidx.test.rule.GrantPermissionRule
 import com.aliumujib.countryflags.domain.models.Country
-import com.aliumujib.countryflags.mappers.CountryModelMapper
-import com.aliumujib.countryflags.mappers.CurrencyModelMapper
-import com.aliumujib.countryflags.mappers.LanguageModelMapper
-import com.aliumujib.countryflags.models.CountryModel
-import com.aliumujib.countryflags.presentation.mappers.CountryModelPresentationMapper
-import com.aliumujib.countryflags.presentation.mappers.CurrencyModelPresentationMapper
-import com.aliumujib.countryflags.presentation.mappers.LanguageModelPresentationMapper
 import com.aliumujib.countryflags.ui.AllCountriesActivity
 import com.aliumujib.countryflags.ui.adapters.allcountries.AllCountriesAdapter
 import com.facebook.testing.screenshot.Screenshot
@@ -29,7 +22,7 @@ import kotlinx.android.synthetic.main.search_fragment.*
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import java.lang.Exception
+import kotlin.test.assertEquals
 
 
 @RunWith(AndroidJUnit4::class)

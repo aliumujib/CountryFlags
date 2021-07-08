@@ -1,6 +1,5 @@
 ext {
-    //Android
-    //Libraries
+    //Android Libraries
     daggerVersion = '2.23'
     butterKnifeVersion = '8.5.1'
     rxJavaVersion = '2.1.6'
@@ -39,7 +38,7 @@ ext {
     greenRobotUtilsVersion = "1.1.6"
     firebaseJobDispatcher = "0.5.2"
     archLifeCycleComponentsVersion = '1.1.0'
-    roomVersion = '2.2.3'
+    roomVersion = '2.3.0'
     materialDesignSpecsVersion = '2.0.1'
     timberVersion = '4.5.1'
 
